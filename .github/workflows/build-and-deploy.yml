@@ -47,7 +47,7 @@ jobs:
         with:
           directory: "build/reports/jacoco"
 
-    release:
+  release:
     concurrency:
         # Allow only one release at a time.
         group: release-${{ github.event.number || github.ref }}
