@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Smart Operating Block
+ * Copyright (c) 2023. Giacomo Accursi
  *
  * Use of this source code is governed by an MIT-style
  * license that can be found in the LICENSE file or at
@@ -7,8 +7,8 @@
  */
 
 /**
- * Template for kotlin projects.
+ * Main Function.
  */
 fun main() {
-    println("Hello World from Kotlin Template")
+    println("Hello World")
 }
