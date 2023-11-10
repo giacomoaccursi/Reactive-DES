@@ -19,6 +19,12 @@ interface Environment {
     fun addNode(node: Node)
 
     /**
+     * Remove node from the environment.
+     * @param node the node to remove
+     */
+    fun removeNode(node: Node)
+
+    /**
      * The list of the nodes in the environment.
      */
     val nodes: List<Node>
