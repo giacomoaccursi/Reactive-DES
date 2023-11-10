@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. Smart Operating Block
+ * Copyright (c) 2023. Accursi Giacomo
  *
  * Use of this source code is governed by an MIT-style
  * license that can be found in the LICENSE file or at
@@ -13,13 +13,14 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-group = "io.github.smartoperatingblock"
+group = "io.github.accursigiacomo"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    api(libs.apache.commons.math3)
     implementation(libs.kotlin.stdlib)
     testImplementation(libs.bundles.kotlin.testing)
 }
