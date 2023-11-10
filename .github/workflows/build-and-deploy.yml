@@ -47,10 +47,10 @@ jobs:
         with:
           directory: "build/reports/jacoco"
 
-  release-and-delivery:
+    release:
     concurrency:
         # Allow only one release at a time.
-        group: release-and-delivery-${{ github.event.number || github.ref }}
+        group: release-${{ github.event.number || github.ref }}
     needs:
       - build
     runs-on: ubuntu-latest
@@ -68,24 +68,26 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
-      - name: Release and container delivery
-        uses: SmartOperatingBlock/release-and-delivery-action@1.0.10
+      - name: Checkout the repository
+        uses: actions/checkout@v4
         with:
-          should-release: true
-          release-command: |
-            npm install
-            npx semantic-release
-          should-build-and-deliver-container: true
-          container-registry-name: 'ghcr.io'
-          container-registry-username: ${{ github.actor }}
-          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
-          github-token: ${{ secrets.DEPLOYMENT_TOKEN }}
-          
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: recursive
+          fetch-depth: 0
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          echo "-- Start release --"
+          npm install
+          npx semantic-release
+          echo "-- End release"
   documentation-deploy:
     needs:
-      - release-and-delivery
+      - release
     runs-on: ubuntu-latest
-    if: needs.release-and-delivery.outputs.release-status == 'released'
+    if: needs.release.outputs.release-status == 'released'
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
@@ -106,7 +108,7 @@ jobs:
     needs:
       - validation
       - build
-      - release-and-delivery
+      - release
       - documentation-deploy
     if: >-
       always() && (
