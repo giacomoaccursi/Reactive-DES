@@ -49,7 +49,11 @@ interface Event {
      */
     val tau: Time
 
-//    val timeEquation: TimeEquation
+    /**
+     * The time equation of this event.
+     */
+    val timeEquation: TimeEquation
+
 //    val coroutineScope: CoroutineScope
 //    val eventExecutedFlow: MutableSharedFlow<Notification>
 //    val inboundDependencies: List<Event>
