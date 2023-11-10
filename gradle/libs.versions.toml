@@ -3,7 +3,8 @@ kotlin = "1.9.22"
 kotest = "5.8.0"
 
 [libraries]
-apache-commons-math3 = { module = "org.apache.commons:commons-math3", version = "3.6.1"}
+apache-commons-math3 = { module = "org.apache.commons:commons-math3", version = "3.6.1" }
+kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.7.3"}
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
@@ -14,6 +15,6 @@ kotest-assertions-core-jvm = { module = "io.kotest:kotest-assertions-core-jvm", 
 kotlin-testing = ["kotest-junit5", "kotest-assertions-core", "kotest-assertions-core-jvm"]
 
 [plugins]
-dokka = { id ="org.jetbrains.dokka", version = "1.9.10" }
+dokka = { id = "org.jetbrains.dokka", version = "1.9.10" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-qa = { id = "org.danilopianini.gradle-kotlin-qa", version = "0.60.1" }
