@@ -13,12 +13,12 @@ import org.apache.commons.math3.distribution.ExponentialDistribution
 /**
  * Represent a time equation.
  */
-class TimeEquation {
+class TimeEquation(time: Time) {
     /**
      * Only for test purposes it has been initialized as exponential distribution.
      */
     private val distribution = ExponentialDistribution(1.0)
-    private lateinit var tau: Time
+    private var tau: Time = time
 
     /**
      * Update the time equation.
