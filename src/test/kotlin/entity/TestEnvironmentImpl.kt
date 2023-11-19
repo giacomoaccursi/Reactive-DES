@@ -13,15 +13,19 @@ import io.kotest.matchers.ints.shouldBeExactly
 
 class TestEnvironmentImpl : StringSpec({
     "nodes are added correctly to the environmemt" {
-        val environment = EnvironmentImpl()
-        environment.addNode(NodeImpl())
-        environment.addNode(NodeImpl())
+        val radius = 5.0
+        val linkingRule = PositionLinkingRule(radius)
+        val environment = EnvironmentImpl(linkingRule = linkingRule)
+        environment.addNode(NodeImpl(1, initialPosition = Position(0.0, 0.0)))
+        environment.addNode(NodeImpl(2, initialPosition = Position(0.0, 0.0)))
         environment.nodes.size shouldBeExactly 2
     }
 
     "nodes are removed correctly from the environmemt" {
-        val environment = EnvironmentImpl()
-        val node = NodeImpl()
+        val radius = 5.0
+        val linkingRule = PositionLinkingRule(radius)
+        val environment = EnvironmentImpl(linkingRule = linkingRule)
+        val node = NodeImpl(1, initialPosition = Position(0.0, 0.0))
         environment.addNode(node)
         environment.removeNode(node)
         environment.nodes.size shouldBeExactly 0
