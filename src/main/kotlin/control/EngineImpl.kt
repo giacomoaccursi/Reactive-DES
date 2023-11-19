@@ -25,7 +25,7 @@ class EngineImpl(
     private var currentTime = time
     override fun start() {
         scheduleEvents()
-        while (currentStep <= maxSteps) {
+        while (currentStep < maxSteps) {
             doStep()
         }
     }
