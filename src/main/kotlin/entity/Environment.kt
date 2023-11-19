@@ -13,6 +13,16 @@ package entity
  */
 interface Environment {
     /**
+     * The list of the nodes in the environment.
+     */
+    val nodes: List<Node>
+
+    /**
+     * The list of neighborhoods.
+     */
+    val neighborhoods: List<Neighborhood>
+
+    /**
      * Add a Node to the environment.
      * @param node the node to add.
      */

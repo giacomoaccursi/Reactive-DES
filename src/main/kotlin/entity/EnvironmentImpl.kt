@@ -13,6 +13,14 @@ package entity
  */
 class EnvironmentImpl : Environment {
     override val nodes = ArrayList<Node>()
+class EnvironmentImpl(override val nodes: ArrayList<Node> = ArrayList(), private val linkingRule: LinkingRule) :
+    Environment {
+
+    override val neighborhoods: ArrayList<Neighborhood> = ArrayList(
+        nodes.map {
+            SimpleNeighborhood(it, this, linkingRule)
+        },
+    )
 
     override fun addNode(node: Node) {
         nodes.add(node)
