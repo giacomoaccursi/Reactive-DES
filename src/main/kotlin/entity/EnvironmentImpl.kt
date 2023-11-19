@@ -24,9 +24,11 @@ class EnvironmentImpl(override val nodes: ArrayList<Node> = ArrayList(), private
 
     override fun addNode(node: Node) {
         nodes.add(node)
+        neighborhoods.add(SimpleNeighborhood(node, this, linkingRule))
     }
 
     override fun removeNode(node: Node) {
         nodes.remove(node)
+        neighborhoods.remove(neighborhoods.find { it.getCenter() == node })
     }
 }
