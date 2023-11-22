@@ -21,7 +21,7 @@ class EventImpl(
 
     override val tau: Time get() = timeEquation.getNextOccurrence()
 
-    override fun execute() {
+    override suspend fun execute() {
         actions.forEach { it.execute() }
     }
 

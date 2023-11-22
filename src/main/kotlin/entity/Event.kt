@@ -15,7 +15,7 @@ interface Event {
     /**
      * Executes the event.
      */
-    fun execute()
+    suspend fun execute()
 
     /**
      * Verifies if the event can be executed.
@@ -53,8 +53,4 @@ interface Event {
      * The time equation of this event.
      */
     val timeEquation: TimeEquation
-
-//    val coroutineScope: CoroutineScope
-//    val eventExecutedFlow: MutableSharedFlow<Notification>
-//    val inboundDependencies: List<Event>
 }
