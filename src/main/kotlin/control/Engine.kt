@@ -15,5 +15,5 @@ interface Engine {
     /**
      * Start the engine.
      */
-    fun start()
+    suspend fun start()
 }
