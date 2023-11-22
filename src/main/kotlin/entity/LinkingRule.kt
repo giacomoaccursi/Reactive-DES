@@ -28,7 +28,8 @@ interface LinkingRule {
      * Check if a node is in the neighborhood of the center node.
      * @param center the center of a neighborhood.
      * @param other another node.
+     * @param environment the environment.
      * @return true if other is a neighbor of the center node, false otherwise.
      */
-    fun isNeighbor(center: Node, other: Node): Boolean
+    fun isNeighbor(center: Node, other: Node, environment: Environment): Boolean
 }
