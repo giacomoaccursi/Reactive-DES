@@ -23,10 +23,24 @@ class EngineImpl(
 
     private var currentStep: Int = 0
     private var currentTime = time
-    override fun start() {
+    override suspend fun start() {
         scheduleEvents()
         while (currentStep < maxSteps) {
             doStep()
+        }
+
+        environment.nodes.forEach {
+            it.contents.forEach { content ->
+                println("node = ${it.id} content = ${content.value}")
+            }
+        }
+        println("----------------------------------------")
+        environment.nodes.forEach {
+            println("node ${it.id} position = ${environment.getNodePosition(it)}")
+        }
+
+        environment.neighborhoods.forEach {
+            println("center = ${it.getCenter().id}, neighbors = ${it.getNeighbors().map { node -> node.id }}")
         }
     }
 
@@ -40,7 +54,9 @@ class EngineImpl(
         }
     }
 
-    private fun doStep() {
+    private suspend fun doStep() {
+        println("***************************")
+        println("start step $currentStep")
         val nextEvent = scheduler.getNext()
         if (nextEvent == null) {
             // Simple way to block the loop, to improve.
@@ -59,6 +75,7 @@ class EngineImpl(
                 scheduler.eventsUpdated()
             }
         }
+        println("end step $currentStep")
         currentStep += 1
     }
 }
