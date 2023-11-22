@@ -25,10 +25,31 @@ class EnvironmentImpl(override val nodes: ArrayList<Node> = ArrayList(), private
     override fun addNode(node: Node) {
         nodes.add(node)
         neighborhoods.add(SimpleNeighborhood(node, this, linkingRule))
+        nodeToPosition[node.id] = position
+        val neighborhood = SimpleNeighborhood(node, this, linkingRule, nodeChangeFlow)
+        neighborhoods.add(neighborhood)
     }
 
-    override fun removeNode(node: Node) {
+    override suspend fun removeNode(node: Node) {
         nodes.remove(node)
+        nodeToPosition.remove(node.id)
         neighborhoods.remove(neighborhoods.find { it.getCenter() == node })
+    override suspend fun moveNode(node: Node, position: Position) {
+        println("node ${node.id} moved in position $position")
+        nodeToPosition[node.id] = position
+    }
+
+    override fun getNodePosition(node: Node): Position {
+        nodeToPosition[node.id].also {
+            if (it == null) {
+                val nodeExists: Boolean = nodes.contains(node)
+                check(!nodeExists) {
+                    ("Node $node is registered in the environment, but it has no position.")
+                }
+                throw IllegalArgumentException("Node ${node.id} does not exist in the environment.")
+            } else {
+                return it
+            }
+        }
     }
 }

@@ -38,16 +38,4 @@ interface Node {
      * @param event the event to remove.
      */
     fun removeEvent(event: Event)
-
-    /**
-     * @return the position of the node in the environment.
-     */
-    fun getPosition(): Position
-
-    /**
-     * Sets the position of the node.
-     * @param position the new position.
-     */
-    fun setPosition(position: Position)
-
 }

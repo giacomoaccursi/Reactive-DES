@@ -15,10 +15,10 @@ package entity
 class PositionLinkingRule(private val radius: Double) : LinkingRule {
     override fun computeNeighbors(center: Node, environment: Environment) =
         environment.nodes.filter {
-            isNeighbor(center, it)
-        }.toSet()
+            isNeighbor(center, it, environment)
+        }.toSet().minus(center)
 
-    override fun isNeighbor(center: Node, other: Node): Boolean {
-        return center.getPosition().distanceTo(other.getPosition()) <= radius
+    override fun isNeighbor(center: Node, other: Node, environment: Environment): Boolean {
+        return environment.getNodePosition(center).distanceTo(environment.getNodePosition(other)) <= radius
     }
 }

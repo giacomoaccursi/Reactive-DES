@@ -14,7 +14,7 @@ import io.kotest.matchers.ints.shouldBeExactly
 class TestNodeImpl : StringSpec({
     "events are added corretly to the node" {
         val timeEquation = TimeEquation(DoubleTime(0.0))
-        val node = NodeImpl(1, initialPosition = Position(0.0, 0.0))
+        val node = NodeImpl(1)
         node.addEvent(EventImpl(timeEquation = timeEquation))
         node.addEvent(EventImpl(timeEquation = timeEquation))
         node.events.size shouldBeExactly 2
@@ -23,7 +23,7 @@ class TestNodeImpl : StringSpec({
     "events are removed correctly from the node" {
         val timeEquation = TimeEquation(DoubleTime(0.0))
         val event = EventImpl(timeEquation = timeEquation)
-        val node = NodeImpl(1, events = ArrayList(listOf(event)), initialPosition = Position(0.0, 0.0))
+        val node = NodeImpl(1, events = ArrayList(listOf(event)))
         node.removeEvent(event)
         node.events.size shouldBeExactly 0
     }

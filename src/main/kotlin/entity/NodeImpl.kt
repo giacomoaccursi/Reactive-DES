@@ -15,13 +15,8 @@ class NodeImpl(
     override val id: Int,
     override val events: ArrayList<Event> = ArrayList(),
     override val contents: ArrayList<Content> = ArrayList(),
-    initialPosition: Position,
 ) : Node {
 
-    override fun getPosition() = position.value
-    override fun setPosition(position: Position) {
-        this.position.value = position
-    }
     override fun addEvent(event: Event) {
         events.add(event)
     }

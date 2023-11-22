@@ -23,6 +23,11 @@ interface Environment {
     val neighborhoods: List<Neighborhood>
 
     /**
+     * Maps node id to its position.
+     */
+    val nodeToPosition: HashMap<Int, Position>
+
+    /**
      * Add a Node to the environment.
      * @param node the node to add.
      */
@@ -35,7 +40,14 @@ interface Environment {
     fun removeNode(node: Node)
 
     /**
-     * The list of the nodes in the environment.
+     * Moves node in a new position.
+     * @param node the node to move.
+     * @param position the new position.
      */
-    val nodes: List<Node>
+    suspend fun moveNode(node: Node, position: Position)
+
+    /**
+     * @return the position of the node.
+     */
+    fun getNodePosition(node: Node): Position
 }
