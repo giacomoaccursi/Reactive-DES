@@ -8,10 +8,19 @@
 
 package entity
 
+import kotlinx.coroutines.CoroutineScope
+
 /**
  * Interface for a neighborhood.
  */
 interface Neighborhood {
+
+    /**
+     * Starts to observing environment nodes.
+     * @param scope the coroutine scope.
+     */
+    suspend fun startObservingNodes(scope: CoroutineScope)
+
     /**
      * @return the center of the neighborhood.
      */

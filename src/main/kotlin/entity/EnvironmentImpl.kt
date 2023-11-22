@@ -8,35 +8,38 @@
 
 package entity
 
+import kotlinx.coroutines.flow.MutableSharedFlow
+
 /**
  * An implementation of the environment.
  */
-class EnvironmentImpl : Environment {
-    override val nodes = ArrayList<Node>()
-class EnvironmentImpl(override val nodes: ArrayList<Node> = ArrayList(), private val linkingRule: LinkingRule) :
+class EnvironmentImpl(private val linkingRule: LinkingRule) :
     Environment {
 
-    override val neighborhoods: ArrayList<Neighborhood> = ArrayList(
-        nodes.map {
-            SimpleNeighborhood(it, this, linkingRule)
-        },
-    )
+    override val nodes: ArrayList<Node> = ArrayList()
+    override val nodeToPosition: HashMap<Int, Position> = HashMap()
+    override val neighborhoods: ArrayList<Neighborhood> = ArrayList()
+    private val nodeChangeFlow: MutableSharedFlow<NodeEvent> = MutableSharedFlow()
 
-    override fun addNode(node: Node) {
+    override suspend fun addNode(node: Node, position: Position) {
         nodes.add(node)
-        neighborhoods.add(SimpleNeighborhood(node, this, linkingRule))
         nodeToPosition[node.id] = position
         val neighborhood = SimpleNeighborhood(node, this, linkingRule, nodeChangeFlow)
         neighborhoods.add(neighborhood)
+        nodeChangeFlow.emit(NodeEvent.NodeAdded(node))
     }
 
     override suspend fun removeNode(node: Node) {
         nodes.remove(node)
         nodeToPosition.remove(node.id)
         neighborhoods.remove(neighborhoods.find { it.getCenter() == node })
+        nodeChangeFlow.emit(NodeEvent.NodeRemoved(node))
+    }
+
     override suspend fun moveNode(node: Node, position: Position) {
         println("node ${node.id} moved in position $position")
         nodeToPosition[node.id] = position
+        nodeChangeFlow.emit(NodeEvent.NodeMoved(node))
     }
 
     override fun getNodePosition(node: Node): Position {
