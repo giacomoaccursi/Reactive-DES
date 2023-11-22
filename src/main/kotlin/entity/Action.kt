@@ -15,5 +15,5 @@ interface Action {
     /**
      * Executes the action.
      */
-    fun execute()
+    suspend fun execute()
 }
