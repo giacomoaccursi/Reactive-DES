@@ -14,7 +14,7 @@ import kotlin.random.Random
  * An action that move a random node from the environment and adds 1 to the x and y coordinates.
  */
 class MoveNodeAction(private val environment: Environment) : Action {
-    override fun execute() {
+    override suspend fun execute() {
         val node = environment.nodes[Random.nextInt(environment.nodes.size - 1)]
         node.setPosition(node.getPosition().sum(Position(1.0, 1.0)))
     }
