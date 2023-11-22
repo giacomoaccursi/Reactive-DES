@@ -31,13 +31,13 @@ interface Environment {
      * Add a Node to the environment.
      * @param node the node to add.
      */
-    fun addNode(node: Node)
+    suspend fun addNode(node: Node, position: Position)
 
     /**
      * Remove node from the environment.
      * @param node the node to remove
      */
-    fun removeNode(node: Node)
+    suspend fun removeNode(node: Node)
 
     /**
      * Moves node in a new position.
