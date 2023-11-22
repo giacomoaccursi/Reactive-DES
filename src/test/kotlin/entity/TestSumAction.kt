@@ -12,6 +12,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.ints.shouldBeExactly
 
 class TestSumAction : StringSpec({
+
     "sum action must add 1 to the value of all content in the node" {
         val radius = 5.0
         val linkingRule = PositionLinkingRule(radius)
@@ -20,9 +21,8 @@ class TestSumAction : StringSpec({
         val node = NodeImpl(
             1,
             contents = ArrayList(listOf(ContentImpl(value), ContentImpl(value))),
-            initialPosition = Position(0.0, 0.0),
         )
-        environment.addNode(node)
+        environment.addNode(node, Position(0.0, 0.0))
         val action = SumAction(environment)
         action.execute()
         node.contents.forEach {
