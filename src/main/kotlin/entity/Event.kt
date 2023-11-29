@@ -13,26 +13,9 @@ package entity
  */
 interface Event {
     /**
-     * Executes the event.
+     * The node in which this event executes.
      */
-    suspend fun execute()
-
-    /**
-     * Verifies if the event can be executed.
-     * @return true if the event can be executed, false otherwise.
-     */
-    fun canExecute(): Boolean
-
-    /**
-     * Updates the scheduling of the event.
-     * @param currentTime the current time of the simulation.
-     */
-    fun updateEvent(currentTime: Time)
-
-    /**
-     * It's called when the environment has completed its initialization.
-     */
-    fun initializationComplete(currentTime: Time)
+    val node: Node
 
     /**
      * The smallest context in which an event can read information.
@@ -53,4 +36,26 @@ interface Event {
      * The time equation of this event.
      */
     val timeEquation: TimeEquation
+
+    /**
+     * Executes the event.
+     */
+    suspend fun execute()
+
+    /**
+     * Verifies if the event can be executed.
+     * @return true if the event can be executed, false otherwise.
+     */
+    fun canExecute(): Boolean
+
+    /**
+     * Updates the scheduling of the event.
+     * @param currentTime the current time of the simulation.
+     */
+    fun updateEvent(currentTime: Time)
+
+    /**
+     * It's called when the environment has completed its initialization.
+     */
+    fun initializationComplete(currentTime: Time)
 }
