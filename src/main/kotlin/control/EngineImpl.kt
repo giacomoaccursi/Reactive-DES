@@ -23,11 +23,15 @@ class EngineImpl(
 
     private var currentStep: Int = 0
     private var currentTime = time
+    private var status = Status.INIT
+
     override suspend fun start() {
         scheduleEvents()
-        while (currentStep < maxSteps) {
+        status = Status.RUNNING
+        while (currentStep < maxSteps && status == Status.RUNNING) {
             doStep()
         }
+        status = Status.TERMINATED
 
         environment.nodes.forEach {
             it.contents.forEach { content ->
@@ -59,8 +63,7 @@ class EngineImpl(
         println("start step $currentStep")
         val nextEvent = scheduler.getNext()
         if (nextEvent == null) {
-            // Simple way to block the loop, to improve.
-            currentStep = maxSteps
+            status = Status.TERMINATED
         } else {
             val scheduledTime = nextEvent.tau
             if (scheduledTime.toDouble() < currentTime.toDouble()) {
@@ -77,5 +80,25 @@ class EngineImpl(
         }
         println("end step $currentStep")
         currentStep += 1
+    }
+
+    /**
+     * Enum for the status of the simulation.
+     */
+    enum class Status {
+        /**
+         * The simulation is being initialized.
+         */
+        INIT,
+
+        /**
+         * The simulation is running.
+         */
+        RUNNING,
+
+        /**
+         * The simulation is terminated.
+         */
+        TERMINATED,
     }
 }
