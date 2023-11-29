@@ -13,31 +13,6 @@ package entity
  */
 interface Event {
     /**
-     * The node in which this event executes.
-     */
-    val node: Node
-
-    /**
-     * The smallest context in which an event can read information.
-     */
-    val inputContext: Context
-
-    /**
-     * The smallest context in which an event can do modifications.
-     */
-    val outputContext: Context
-
-    /**
-     * The global time at which this reaction is scheduled to be executed.
-     */
-    val tau: Time
-
-    /**
-     * The time equation of this event.
-     */
-    val timeEquation: TimeEquation
-
-    /**
      * Executes the event.
      */
     suspend fun execute()
@@ -58,4 +33,24 @@ interface Event {
      * It's called when the environment has completed its initialization.
      */
     fun initializationComplete(currentTime: Time)
+
+    /**
+     * The smallest context in which an event can read information.
+     */
+    val inputContext: Context
+
+    /**
+     * The smallest context in which an event can do modifications.
+     */
+    val outputContext: Context
+
+    /**
+     * The global time at which this reaction is scheduled to be executed.
+     */
+    val tau: Time
+
+    /**
+     * The time equation of this event.
+     */
+    val timeEquation: TimeEquation
 }
