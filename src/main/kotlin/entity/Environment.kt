@@ -55,4 +55,15 @@ interface Environment {
      * @return the node's neighborhood.
      */
     fun getNeighborhood(node: Node): Neighborhood
+
+    /**
+     * @return the node instance given its id.
+     * @param id the id of the node.
+     */
+    fun getNodeFromId(id: Int): Node
+
+    /**
+     * @return all nodes in the environment.
+     */
+    fun getAllNodes(): List<Node>
 }
