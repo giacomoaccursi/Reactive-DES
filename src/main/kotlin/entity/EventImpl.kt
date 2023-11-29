@@ -12,6 +12,7 @@ package entity
  * Implementation of an event.
  */
 class EventImpl(
+    override val node: Node,
     private val conditions: ArrayList<Condition> = ArrayList(),
     private val actions: ArrayList<Action> = ArrayList(),
     override val timeEquation: TimeEquation,
