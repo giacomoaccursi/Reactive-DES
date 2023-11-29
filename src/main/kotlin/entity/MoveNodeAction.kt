@@ -15,7 +15,7 @@ import kotlin.random.Random
  */
 class MoveNodeAction(private val environment: Environment) : Action {
     override suspend fun execute() {
-        val node = environment.nodes[Random.nextInt(environment.nodes.size - 1)]
+        val node = environment.nodes[Random.nextInt(environment.nodes.size)]
         environment.moveNode(node, environment.getNodePosition(node).sum(Position(1.0, 1.0)))
     }
 }
