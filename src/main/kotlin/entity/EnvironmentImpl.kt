@@ -8,7 +8,7 @@
 
 package entity
 
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
  * An implementation of the environment.
@@ -16,36 +16,31 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 class EnvironmentImpl(private val linkingRule: LinkingRule) :
     Environment {
 
-    override val nodes: ArrayList<Node> = ArrayList()
-    override val nodeToPosition: HashMap<Int, Position> = HashMap()
+    override val nodes: MutableStateFlow<List<Node>> = MutableStateFlow(emptyList())
+    override val nodesToPosition: MutableStateFlow<Map<Int, Position>> = MutableStateFlow(emptyMap())
     override val neighborhoods: ArrayList<Neighborhood> = ArrayList()
-    private val nodeChangeFlow: MutableSharedFlow<NodeEvent> = MutableSharedFlow()
 
-    override suspend fun addNode(node: Node, position: Position) {
-        nodes.add(node)
-        nodeToPosition[node.id] = position
-        val neighborhood = SimpleNeighborhood(node, this, linkingRule, nodeChangeFlow)
+    override fun addNode(node: Node, position: Position) {
+        nodes.value += node
+        nodesToPosition.value += Pair(node.id, position)
+        val neighborhood = SimpleNeighborhood(node, this, linkingRule)
         neighborhoods.add(neighborhood)
-        nodeChangeFlow.emit(NodeEvent.NodeAdded(node))
     }
 
-    override suspend fun removeNode(node: Node) {
-        nodes.remove(node)
-        nodeToPosition.remove(node.id)
+    override fun removeNode(node: Node) {
         neighborhoods.remove(neighborhoods.find { it.getCenter() == node })
-        nodeChangeFlow.emit(NodeEvent.NodeRemoved(node))
+        nodes.value -= node
+        nodesToPosition.value = nodesToPosition.value.filterKeys { it != node.id }
     }
 
-    override suspend fun moveNode(node: Node, position: Position) {
-        println("node ${node.id} moved in position $position")
-        nodeToPosition[node.id] = position
-        nodeChangeFlow.emit(NodeEvent.NodeMoved(node))
+    override fun moveNode(node: Node, position: Position) {
+        nodesToPosition.value += Pair(node.id, position)
     }
 
     override fun getNodePosition(node: Node): Position {
-        nodeToPosition[node.id].also {
+        nodesToPosition.value[node.id].also {
             if (it == null) {
-                val nodeExists: Boolean = nodes.contains(node)
+                val nodeExists: Boolean = nodes.value.contains(node)
                 check(!nodeExists) {
                     ("Node $node is registered in the environment, but it has no position.")
                 }
