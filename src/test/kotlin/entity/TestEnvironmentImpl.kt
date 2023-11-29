@@ -16,7 +16,6 @@ class TestEnvironmentImpl : StringSpec({
         val radius = 5.0
         val linkingRule = PositionLinkingRule(radius)
         val environment = EnvironmentImpl(linkingRule = linkingRule)
-        println("dopo")
         environment.addNode(NodeImpl(1), Position(0.0, 0.0))
         environment.addNode(NodeImpl(2), Position(0.0, 0.0))
         environment.nodes.size shouldBeExactly 2
