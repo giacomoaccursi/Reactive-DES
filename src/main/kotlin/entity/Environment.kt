@@ -50,4 +50,9 @@ interface Environment {
      * @return the position of the node.
      */
     fun getNodePosition(node: Node): Position
+
+    /**
+     * @return the node's neighborhood.
+     */
+    fun getNeighborhood(node: Node): Neighborhood
 }
