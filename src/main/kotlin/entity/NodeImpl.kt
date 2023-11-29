@@ -24,4 +24,17 @@ class NodeImpl(
     override fun removeEvent(event: Event) {
         events.remove(event)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as NodeImpl
+
+        return id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id
+    }
 }
