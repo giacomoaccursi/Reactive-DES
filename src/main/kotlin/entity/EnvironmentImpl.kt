@@ -55,4 +55,8 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
             }
         }
     }
+
+    override fun getNeighborhood(node: Node): Neighborhood {
+        return neighborhoods.first { it.getCenter() == node }
+    }
 }
