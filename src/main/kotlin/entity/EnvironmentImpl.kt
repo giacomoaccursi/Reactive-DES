@@ -59,4 +59,11 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
     override fun getNeighborhood(node: Node): Neighborhood {
         return neighborhoods.first { it.getCenter() == node }
     }
+
+    override fun getNodeFromId(id: Int) = nodes.value.first { it.id == id }
+
+    override fun getAllNodes() = nodes.value.filter {
+        // it ensures that all nodes returned have a position.
+        it.id in nodesToPosition.value.keys
+    }
 }

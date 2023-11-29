@@ -10,6 +10,7 @@ package control
 
 import entity.Environment
 import entity.Time
+import kotlinx.coroutines.delay
 
 /**
  * Implementation of the engine.
@@ -28,18 +29,20 @@ class EngineImpl(
     override suspend fun start() {
         scheduleEvents()
         status = Status.RUNNING
+        delay(1000)
         while (currentStep < maxSteps && status == Status.RUNNING) {
             doStep()
+            delay(1000)
         }
         status = Status.TERMINATED
 
-        environment.nodes.forEach {
+        environment.getAllNodes().forEach {
             it.contents.forEach { content ->
                 println("node = ${it.id} content = ${content.value}")
             }
         }
         println("----------------------------------------")
-        environment.nodes.forEach {
+        environment.getAllNodes().forEach {
             println("node ${it.id} position = ${environment.getNodePosition(it)}")
         }
 
@@ -50,7 +53,7 @@ class EngineImpl(
 
     private fun scheduleEvents() {
         // Occorre anche creare le dipendenze fra le reazioni in base al contesto.
-        environment.nodes.forEach { node ->
+        environment.getAllNodes().forEach { node ->
             node.events.forEach { event ->
                 event.initializationComplete(currentTime)
                 scheduler.addEvent(event)
