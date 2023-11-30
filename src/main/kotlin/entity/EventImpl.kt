@@ -16,8 +16,6 @@ class EventImpl(
     private val conditions: ArrayList<Condition> = ArrayList(),
     private val actions: ArrayList<Action> = ArrayList(),
     override val timeEquation: TimeEquation,
-    override val inputContext: Context = Context.GLOBAL,
-    override val outputContext: Context = Context.GLOBAL,
 ) : Event {
 
     override val tau: Time get() = timeEquation.getNextOccurrence()
