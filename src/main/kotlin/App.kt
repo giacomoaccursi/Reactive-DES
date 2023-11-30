@@ -9,7 +9,6 @@
 import control.EngineImpl
 import control.ListScheduler
 import entity.ContentImpl
-import entity.Context
 import entity.DoubleTime
 import entity.DummyCondition
 import entity.EnvironmentImpl
@@ -20,7 +19,6 @@ import entity.Position
 import entity.PositionLinkingRule
 import entity.SumAction
 import entity.TimeEquation
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -62,7 +60,6 @@ fun main() {
                 Position(0.0, 0.0),
             )
         }
-        delay(1000)
         environment.neighborhoods.forEach {
             println("node: ${it.getCenter().id}, neighbors = ${it.getNeighbors().map { node -> node.id }}")
         }
@@ -73,32 +70,24 @@ fun main() {
             arrayListOf(condition),
             arrayListOf(moveAction, sumAction),
             timeEquation,
-            inputContext = Context.NEIGHBORHOOD,
-            outputContext = Context.NEIGHBORHOOD,
         ).also { node1.addEvent(it) }
         val event2 = EventImpl(
             node2,
             arrayListOf(condition),
             arrayListOf(sumAction),
             timeEquation,
-            inputContext = Context.NEIGHBORHOOD,
-            outputContext = Context.NEIGHBORHOOD,
         ).also { node2.addEvent(it) }
         val event3 = EventImpl(
             node3,
             arrayListOf(condition),
             arrayListOf(sumAction),
             timeEquation,
-            inputContext = Context.NEIGHBORHOOD,
-            outputContext = Context.NEIGHBORHOOD,
         ).also { node3.addEvent(it) }
         val event4 = EventImpl(
             node4,
             arrayListOf(condition),
             arrayListOf(sumAction),
             timeEquation,
-            inputContext = Context.NEIGHBORHOOD,
-            outputContext = Context.NEIGHBORHOOD,
         ).also { node4.addEvent(it) }
         val scheduler = ListScheduler(arrayListOf(event1, event2, event3, event4))
         val engine = EngineImpl(environment, scheduler, MAX_STEPS, time)
