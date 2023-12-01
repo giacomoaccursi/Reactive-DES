@@ -28,7 +28,7 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
     }
 
     override fun removeNode(node: Node) {
-        neighborhoods.remove(neighborhoods.find { it.getCenter() == node })
+        neighborhoods.remove(neighborhoods.find { it.center == node })
         nodes.value -= node
         nodesToPosition.value = nodesToPosition.value.filterKeys { it != node.id }
     }
@@ -52,7 +52,7 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
     }
 
     override fun getNeighborhood(node: Node): Neighborhood {
-        return neighborhoods.first { it.getCenter() == node }
+        return neighborhoods.first { it.center == node }
     }
 
     override fun getNodeFromId(id: Int) = nodes.value.first { it.id == id }

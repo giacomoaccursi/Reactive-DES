@@ -16,12 +16,12 @@ import kotlinx.coroutines.flow.StateFlow
 interface Neighborhood {
 
     /**
-     * @return the center of the neighborhood.
+     * The center of the neighborhood.
      */
-    fun getCenter(): Node
+    val center: Node
 
     /**
-     * @return the neighbors of the neighborhood.
+     * The neighbors of the node.
      */
-    fun getNeighbors(): StateFlow<Set<Node>>
+    val neighbors: StateFlow<Set<Node>>
 }
