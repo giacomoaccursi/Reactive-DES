@@ -13,7 +13,7 @@ import org.apache.commons.math3.distribution.ExponentialDistribution
 /**
  * Represent a time equation.
  */
-class TimeEquation(time: Time) {
+class TimeDistribution(time: Time) {
     /**
      * Only for test purposes it has been initialized as exponential distribution.
      */
