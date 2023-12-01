@@ -8,6 +8,8 @@
 
 package entity
 
+import kotlinx.coroutines.flow.StateFlow
+
 /**
  * Represent a node in the environment.
  */
@@ -20,12 +22,12 @@ interface Node {
     /**
      * List of all events inside the node.
      */
-    val events: List<Event>
+    val events: StateFlow<List<Event>>
 
     /**
      * List of all contents inside the node.
      */
-    val contents: List<Content>
+    val contents: StateFlow<List<Content>>
 
     /**
      * Adds the event to the node.
@@ -38,4 +40,16 @@ interface Node {
      * @param event the event to remove.
      */
     fun removeEvent(event: Event)
+
+    /**
+     * Add content to the node.
+     * @param content the content to add.
+     */
+    fun addContent(content: Content)
+
+    /**
+     * Remove content from the node.
+     * @param content the content to remove.
+     */
+    fun removeContent(content: Content)
 }
