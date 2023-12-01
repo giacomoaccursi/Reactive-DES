@@ -15,16 +15,17 @@ class TestNodeImpl : StringSpec({
     "events are added corretly to the node" {
         val timeEquation = TimeEquation(DoubleTime(0.0))
         val node = NodeImpl(1)
-        node.addEvent(EventImpl(timeEquation = timeEquation))
-        node.addEvent(EventImpl(timeEquation = timeEquation))
-        node.events.size shouldBeExactly 2
+        node.addEvent(EventImpl(node, timeEquation = timeEquation))
+        node.addEvent(EventImpl(node, timeEquation = timeEquation))
+        node.events.value.size shouldBeExactly 2
     }
 
     "events are removed correctly from the node" {
         val timeEquation = TimeEquation(DoubleTime(0.0))
-        val event = EventImpl(timeEquation = timeEquation)
-        val node = NodeImpl(1, events = ArrayList(listOf(event)))
+        val node = NodeImpl(1)
+        val event = EventImpl(node, timeEquation = timeEquation)
+        node.addEvent(event)
         node.removeEvent(event)
-        node.events.size shouldBeExactly 0
+        node.events.value.size shouldBeExactly 0
     }
 })

@@ -18,14 +18,13 @@ class TestSumAction : StringSpec({
         val linkingRule = PositionLinkingRule(radius)
         val environment = EnvironmentImpl(linkingRule = linkingRule)
         val value = 1
-        val node = NodeImpl(
-            1,
-            contents = ArrayList(listOf(ContentImpl(value), ContentImpl(value))),
-        )
+        val node = NodeImpl(1)
+        node.addContent(ContentImpl(value))
+        node.addContent(ContentImpl(value))
         environment.addNode(node, Position(0.0, 0.0))
         val action = SumAction(environment)
         action.execute()
-        node.contents.forEach {
+        node.contents.value.forEach {
             it.value shouldBeExactly value + 1
         }
     }
