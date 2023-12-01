@@ -18,7 +18,6 @@ import entity.NodeImpl
 import entity.Position
 import entity.PositionLinkingRule
 import entity.SumAction
-import entity.TimeDistribution
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -33,7 +32,6 @@ fun main() {
     runBlocking {
         // Simple initialization of a simulation.
         val time = DoubleTime(0.0)
-        val timeDistribution = TimeDistribution(time)
         val condition = DummyCondition()
         val linkingRule = PositionLinkingRule(4.0)
 
@@ -54,35 +52,30 @@ fun main() {
         }
         val moveAction = MoveNodeAction(environment)
         val sumAction = SumAction(environment)
-        val event1 = EventImpl(
+        EventImpl(
             node1,
             arrayListOf(condition),
             arrayListOf(moveAction, sumAction),
-            timeDistribution,
         ).also { node1.addEvent(it) }
-        val event2 = EventImpl(
+        EventImpl(
             node2,
             arrayListOf(condition),
             arrayListOf(sumAction),
-            timeDistribution,
         ).also { node2.addEvent(it) }
-        val event3 = EventImpl(
+        EventImpl(
             node3,
             arrayListOf(condition),
             arrayListOf(sumAction),
-            timeDistribution,
         ).also { node3.addEvent(it) }
-        val event4 = EventImpl(
+        EventImpl(
             node4,
             arrayListOf(condition),
             arrayListOf(sumAction),
-            timeDistribution,
         ).also {
             node4.addEvent(it)
-            node4.addEvent(event3)
         }
 
-        val scheduler = ListScheduler(arrayListOf(event3, event2, event1, event4))
+        val scheduler = ListScheduler()
         val engine = EngineImpl(environment, scheduler, MAX_STEPS, time)
         engine.start()
     }
