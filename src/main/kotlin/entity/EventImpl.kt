@@ -22,10 +22,10 @@ class EventImpl(
     override val node: Node,
     private val conditions: ArrayList<Condition> = ArrayList(),
     private val actions: ArrayList<Action> = ArrayList(),
-    override val timeDistribution: TimeDistribution,
     private val coroutineContext: CoroutineContext = Dispatchers.Default,
 ) : Event {
 
+    private val timeDistribution: TimeDistribution = TimeDistribution(DoubleTime(2.0))
     private val observedEvents: HashMap<Event, Job> = hashMapOf()
     override val executionFlow: MutableSharedFlow<Event> = MutableSharedFlow()
 

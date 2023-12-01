@@ -8,6 +8,8 @@
 
 package entity
 
+import kotlinx.coroutines.flow.SharedFlow
+
 /**
  * Represent an event that can happen.
  */
@@ -23,10 +25,9 @@ interface Event {
     val tau: Time
 
     /**
-     * The time equation of this event.
+     * Shared flow for event execution.
      */
-    val timeEquation: TimeEquation
-    val timeDistribution: TimeDistribution
+    val executionFlow: SharedFlow<Event>
 
     /**
      * Executes the event.
