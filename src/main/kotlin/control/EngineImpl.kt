@@ -57,6 +57,7 @@ class EngineImpl(
             currentTime = scheduledTime
             if (nextEvent.canExecute()) {
                 nextEvent.execute()
+                nextEvent.updateEvent(currentTime)
                 // da capire bene come gestirlo: dopo aver eseguito l'evento, verranno aggiornati anche tutti
                 // gli eventi dipendenti. Essendo questo aggiornamento asincrono non possiamo informare subito lo
                 // scheduler che gli eventi sono stati aggiornati.
