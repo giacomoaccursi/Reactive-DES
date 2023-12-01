@@ -38,30 +38,19 @@ fun main() {
         val linkingRule = PositionLinkingRule(4.0)
 
         val environment = EnvironmentImpl(linkingRule)
-        val node1 = NodeImpl(
-            1,
-            contents = arrayListOf(ContentImpl(1)),
-        )
-        val node2 = NodeImpl(
-            2,
-            contents = arrayListOf(ContentImpl(1)),
-        )
-        val node3 = NodeImpl(
-            3,
-            contents = arrayListOf(ContentImpl(1)),
-        )
-        val node4 = NodeImpl(
-            4,
-            contents = arrayListOf(ContentImpl(1)),
-        )
+        val node1 = NodeImpl(1)
+        node1.addContent(ContentImpl(1))
+        val node2 = NodeImpl(2)
+        node2.addContent(ContentImpl(1))
+        val node3 = NodeImpl(3)
+        node3.addContent(ContentImpl(1))
+        val node4 = NodeImpl(4)
+        node4.addContent(ContentImpl(1))
         listOf(node1, node2, node3, node4).forEach { node ->
             environment.addNode(
                 node,
                 Position(0.0, 0.0),
             )
-        }
-        environment.neighborhoods.forEach {
-            println("node: ${it.getCenter().id}, neighbors = ${it.getNeighbors().map { node -> node.id }}")
         }
         val moveAction = MoveNodeAction(environment)
         val sumAction = SumAction(environment)
