@@ -10,6 +10,7 @@ package control
 
 import entity.DoubleTime
 import entity.EventImpl
+import entity.NodeImpl
 import entity.TimeEquation
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -17,6 +18,7 @@ import io.kotest.matchers.shouldBe
 class TestListScheduler : StringSpec({
 
     val timeEquation = TimeEquation(DoubleTime(0.0))
+    val node = NodeImpl(1)
 
     "test scheduler with no events" {
         val emptyScheduler = ListScheduler()
@@ -24,13 +26,13 @@ class TestListScheduler : StringSpec({
     }
 
     "test scheduler with one event" {
-        val event = EventImpl(timeEquation = timeEquation)
+        val event = EventImpl(node, timeEquation = timeEquation)
         val scheduler = ListScheduler(ArrayList(listOf(event)))
         scheduler.getNext() shouldBe event
     }
 
     "it must be possible to remove events from the scheduler" {
-        val event = EventImpl(timeEquation = timeEquation)
+        val event = EventImpl(node, timeEquation = timeEquation)
         val emptyScheduler = ListScheduler(ArrayList(listOf(event)))
         emptyScheduler.removeEvent(event)
         emptyScheduler.getNext() shouldBe null
@@ -38,8 +40,8 @@ class TestListScheduler : StringSpec({
 
     "scheduler with more than one event must return the event with smaller execution time" {
         val currentTime = DoubleTime()
-        val event1 = EventImpl(timeEquation = timeEquation).also { it.initializationComplete(currentTime) }
-        val event2 = EventImpl(timeEquation = timeEquation).also { it.initializationComplete(currentTime) }
+        val event1 = EventImpl(node, timeEquation = timeEquation).also { it.initializationComplete(currentTime) }
+        val event2 = EventImpl(node, timeEquation = timeEquation).also { it.initializationComplete(currentTime) }
         val scheduler = ListScheduler(ArrayList(listOf(event1, event2)))
         val smaller = listOf(event1, event2).sortedBy { it.tau.toDouble() }.first()
         scheduler.getNext() shouldBe smaller
@@ -47,9 +49,9 @@ class TestListScheduler : StringSpec({
 
     "scheduler must reorder the events execution after them update" {
         val currentTime = DoubleTime()
-        val event1 = EventImpl(timeEquation = timeEquation).also { it.initializationComplete(currentTime) }
-        val event2 = EventImpl(timeEquation = timeEquation).also { it.initializationComplete(currentTime) }
-        val event3 = EventImpl(timeEquation = timeEquation).also { it.initializationComplete(currentTime) }
+        val event1 = EventImpl(node, timeEquation = timeEquation).also { it.initializationComplete(currentTime) }
+        val event2 = EventImpl(node, timeEquation = timeEquation).also { it.initializationComplete(currentTime) }
+        val event3 = EventImpl(node, timeEquation = timeEquation).also { it.initializationComplete(currentTime) }
         var inverseSortedEventList =
             listOf(event1, event2, event3)
         inverseSortedEventList = inverseSortedEventList.sortedByDescending { event -> event.tau.toDouble() }

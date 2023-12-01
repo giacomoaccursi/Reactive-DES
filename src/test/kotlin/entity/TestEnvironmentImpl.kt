@@ -18,7 +18,7 @@ class TestEnvironmentImpl : StringSpec({
         val environment = EnvironmentImpl(linkingRule = linkingRule)
         environment.addNode(NodeImpl(1), Position(0.0, 0.0))
         environment.addNode(NodeImpl(2), Position(0.0, 0.0))
-        environment.nodes.size shouldBeExactly 2
+        environment.getAllNodes().size shouldBeExactly 2
     }
 
     "nodes are removed correctly from the environment" {
@@ -28,6 +28,6 @@ class TestEnvironmentImpl : StringSpec({
         val node = NodeImpl(1)
         environment.addNode(node, Position(0.0, 0.0))
         environment.removeNode(node)
-        environment.nodes.size shouldBeExactly 0
+        environment.getAllNodes().size shouldBeExactly 0
     }
 })
