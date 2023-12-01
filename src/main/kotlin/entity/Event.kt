@@ -26,6 +26,7 @@ interface Event {
      * The time equation of this event.
      */
     val timeEquation: TimeEquation
+    val timeDistribution: TimeDistribution
 
     /**
      * Executes the event.
