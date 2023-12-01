@@ -8,6 +8,8 @@
 
 package entity
 
+import kotlinx.coroutines.flow.StateFlow
+
 /**
  * Interface for a neighborhood.
  */
@@ -21,5 +23,5 @@ interface Neighborhood {
     /**
      * @return the neighbors of the neighborhood.
      */
-    fun getNeighbors(): Set<Node>
+    fun getNeighbors(): StateFlow<Set<Node>>
 }

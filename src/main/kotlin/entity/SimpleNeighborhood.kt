@@ -10,6 +10,8 @@ package entity
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -27,17 +29,17 @@ class SimpleNeighborhood(
         startObservingNodes()
     }
 
-    private var neighbors: Set<Node> = emptySet()
+    private val neighbors: MutableStateFlow<Set<Node>> = MutableStateFlow(emptySet())
 
     private fun startObservingNodes() {
         CoroutineScope(coroutineContext).launch {
             environment.nodesToPosition.collect {
-                neighbors = linkingRule.computeNeighbors(center, environment)
+                neighbors.value = linkingRule.computeNeighbors(center, environment)
             }
         }
     }
 
     override fun getCenter() = center
 
-    override fun getNeighbors() = neighbors
+    override fun getNeighbors() = neighbors.asStateFlow()
 }
