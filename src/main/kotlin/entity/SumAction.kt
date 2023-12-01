@@ -16,7 +16,7 @@ import kotlin.random.Random
 class SumAction(private val environment: Environment) : Action {
     override suspend fun execute() {
         val node = environment.getAllNodes()[Random.nextInt(environment.getAllNodes().size)]
-        node.contents.forEach {
+        node.contents.value.forEach {
             it.value += 1
         }
     }
