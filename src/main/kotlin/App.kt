@@ -33,7 +33,7 @@ fun main() {
         // Simple initialization of a simulation.
         val time = DoubleTime(0.0)
         val condition = DummyCondition()
-        val linkingRule = PositionLinkingRule(4.0)
+        val linkingRule = PositionLinkingRule(1.0)
 
         val environment = EnvironmentImpl(linkingRule)
         val node1 = NodeImpl(1)
@@ -52,31 +52,69 @@ fun main() {
         }
         val moveAction = MoveNodeAction(environment)
         val sumAction = SumAction(environment)
-        EventImpl(
-            node1,
-            arrayListOf(condition),
-            arrayListOf(moveAction, sumAction),
-        ).also { node1.addEvent(it) }
-        EventImpl(
-            node2,
-            arrayListOf(condition),
-            arrayListOf(sumAction),
-        ).also { node2.addEvent(it) }
-        EventImpl(
-            node3,
-            arrayListOf(condition),
-            arrayListOf(sumAction),
-        ).also { node3.addEvent(it) }
-        EventImpl(
-            node4,
-            arrayListOf(condition),
-            arrayListOf(sumAction),
-        ).also {
-            node4.addEvent(it)
-        }
 
         val scheduler = ListScheduler()
         val engine = EngineImpl(environment, scheduler, MAX_STEPS, time)
+
+        val event1 = EventImpl(
+            node1,
+            arrayListOf(condition),
+            arrayListOf(moveAction, sumAction),
+            engine = engine,
+        )
+        val event2 = EventImpl(
+            node1,
+            arrayListOf(condition),
+            arrayListOf(moveAction, sumAction),
+            engine = engine,
+        )
+        node1.addEvent(event1)
+        node1.addEvent(event2)
+
+        val event3 = EventImpl(
+            node2,
+            arrayListOf(condition),
+            arrayListOf(moveAction),
+            engine = engine,
+        )
+        val event4 = EventImpl(
+            node2,
+            arrayListOf(condition),
+            arrayListOf(moveAction),
+            engine = engine,
+        )
+        node2.addEvent(event3)
+        node2.addEvent(event4)
+
+        val event5 = EventImpl(
+            node3,
+            arrayListOf(condition),
+            arrayListOf(moveAction),
+            engine = engine,
+        )
+        val event6 = EventImpl(
+            node3,
+            arrayListOf(condition),
+            arrayListOf(moveAction),
+            engine = engine,
+        )
+        node3.addEvent(event5)
+        node3.addEvent(event6)
+
+        val event7 = EventImpl(
+            node4,
+            arrayListOf(condition),
+            arrayListOf(moveAction),
+            engine = engine,
+        )
+        val event8 = EventImpl(
+            node4,
+            arrayListOf(condition),
+            arrayListOf(moveAction),
+            engine = engine,
+        )
+        node4.addEvent(event7)
+        node4.addEvent(event8)
         engine.start()
     }
 }
