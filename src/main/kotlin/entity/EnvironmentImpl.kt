@@ -18,29 +18,35 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
 
     override val nodes: MutableStateFlow<List<Node>> = MutableStateFlow(emptyList())
     override val nodesToPosition: MutableStateFlow<Map<Int, Position>> = MutableStateFlow(emptyMap())
-    override val neighborhoods: ArrayList<Neighborhood> = ArrayList()
+    override val neighborhoods: MutableStateFlow<Map<Int, Neighborhood>> = MutableStateFlow(emptyMap())
 
     override fun addNode(node: Node, position: Position) {
         nodes.value += node
         nodesToPosition.value += Pair(node.id, position)
-        val neighborhood = SimpleNeighborhood(node, this, linkingRule)
-        neighborhoods.add(neighborhood)
+        updateNeighborhood(node)
     }
 
     override fun removeNode(node: Node) {
-        neighborhoods.remove(neighborhoods.find { it.center == node })
         nodes.value -= node
-        nodesToPosition.value = nodesToPosition.value.filterKeys { it != node.id }
+        nodesToPosition.value = nodesToPosition.value.minus(node.id)
+        neighborhoods.value[node.id]?.neighbors?.forEach {
+            val nodeNeighborhood = getNeighborhood(it)
+            if (nodeNeighborhood != null) {
+                neighborhoods.value += Pair(it.id, nodeNeighborhood.removeNeighbor(node))
+            }
+        }
+        neighborhoods.value = neighborhoods.value.minus(node.id)
     }
 
     override fun moveNode(node: Node, position: Position) {
         nodesToPosition.value += Pair(node.id, position)
+        updateNeighborhood(node)
     }
 
     override fun getNodePosition(node: Node): Position {
         nodesToPosition.value[node.id].also {
             if (it == null) {
-                val nodeExists: Boolean = nodes.value.contains(node)
+                val nodeExists = nodes.value.contains(node)
                 check(!nodeExists) {
                     ("Node $node is registered in the environment, but it has no position.")
                 }
@@ -51,8 +57,8 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
         }
     }
 
-    override fun getNeighborhood(node: Node): Neighborhood {
-        return neighborhoods.first { it.center == node }
+    override fun getNeighborhood(node: Node): Neighborhood? {
+        return neighborhoods.value[node.id]
     }
 
     override fun getNodeFromId(id: Int) = nodes.value.first { it.id == id }
@@ -60,5 +66,34 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
     override fun getAllNodes() = nodes.value.filter {
         // it ensures that all nodes returned have a position.
         it.id in nodesToPosition.value.keys
+    }
+
+    private fun updateNeighborhood(node: Node) {
+        val newNeighborhood = SimpleNeighborhood(node, linkingRule.computeNeighbors(node, this))
+        val oldNeighborhood = getNeighborhood(node)
+        if (oldNeighborhood != null) {
+            val lostNeighbors = oldNeighborhood.neighbors - newNeighborhood.neighbors
+            val gainedNeighbors = newNeighborhood.neighbors - oldNeighborhood.neighbors
+            lostNeighbors.forEach { neighbor ->
+                val nodeNeighborhood = getNeighborhood(neighbor)
+                if (nodeNeighborhood != null) {
+                    neighborhoods.value += Pair(neighbor.id, nodeNeighborhood.removeNeighbor(node))
+                }
+            }
+            gainedNeighbors.forEach { neighbor ->
+                val nodeNeighborhood = getNeighborhood(neighbor)
+                if (nodeNeighborhood != null) {
+                    neighborhoods.value += Pair(neighbor.id, nodeNeighborhood.addNeighbor(node))
+                }
+            }
+        } else {
+            newNeighborhood.neighbors.forEach { neighbor ->
+                val nodeNeighborhood = getNeighborhood(neighbor)
+                if (nodeNeighborhood != null) {
+                    neighborhoods.value += Pair(neighbor.id, nodeNeighborhood.addNeighbor(node))
+                }
+            }
+        }
+        neighborhoods.value += Pair(node.id, newNeighborhood)
     }
 }

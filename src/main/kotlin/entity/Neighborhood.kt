@@ -8,8 +8,6 @@
 
 package entity
 
-import kotlinx.coroutines.flow.StateFlow
-
 /**
  * Interface for a neighborhood.
  */
@@ -23,5 +21,19 @@ interface Neighborhood {
     /**
      * The neighbors of the node.
      */
-    val neighbors: StateFlow<Set<Node>>
+    val neighbors: Set<Node>
+
+    /**
+     * Add a node neighbor.
+     * @param node the new neighbor.
+     * @return a new neighborhood plus the provided node.
+     */
+    fun addNeighbor(node: Node): Neighborhood
+
+    /**
+     * Remove a node neighbor.
+     * @param node the node to remove
+     * @return a new neighborhood without the provided node.
+     */
+    fun removeNeighbor(node: Node): Neighborhood
 }

@@ -8,37 +8,14 @@
 
 package entity
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
-
 /**
  * A simple implementation of a neighborhood.
  */
 class SimpleNeighborhood(
     override val center: Node,
-    private val environment: Environment,
-    private val linkingRule: LinkingRule,
-    private val coroutineContext: CoroutineContext = Dispatchers.Default,
+    override val neighbors: Set<Node>,
 ) : Neighborhood {
+    override fun addNeighbor(node: Node) = SimpleNeighborhood(center, neighbors + node)
 
-    private val neighborsSet: MutableStateFlow<Set<Node>> = MutableStateFlow(emptySet())
-    override val neighbors: StateFlow<Set<Node>>
-        get() = neighborsSet.asStateFlow()
-
-    init {
-        startObservingNodes()
-    }
-
-    private fun startObservingNodes() {
-        CoroutineScope(coroutineContext).launch {
-            environment.nodesToPosition.collect {
-                neighborsSet.value = linkingRule.computeNeighbors(center, environment)
-            }
-        }
-    }
+    override fun removeNeighbor(node: Node) = SimpleNeighborhood(center, neighbors - node)
 }
