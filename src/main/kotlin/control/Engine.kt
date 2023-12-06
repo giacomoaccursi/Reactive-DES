@@ -16,4 +16,9 @@ interface Engine {
      * Start the engine.
      */
     suspend fun start()
+
+    /**
+     * Allows the event to notify its update.
+     */
+    fun notifyEventUpdate()
 }

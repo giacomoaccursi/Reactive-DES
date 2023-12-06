@@ -8,6 +8,7 @@
 
 package entity
 
+import control.Engine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -23,6 +24,7 @@ class EventImpl(
     private val conditions: ArrayList<Condition> = ArrayList(),
     private val actions: ArrayList<Action> = ArrayList(),
     private val coroutineContext: CoroutineContext = Dispatchers.Default,
+    private val engine: Engine,
 ) : Event {
 
     private val timeDistribution: TimeDistribution = TimeDistribution(DoubleTime(2.0))
@@ -48,14 +50,17 @@ class EventImpl(
         updateEvent(currentTime)
     }
 
+    override fun getNumberOfEventExecutionObserver() = executionFlow.subscriptionCount.value
+
     override fun updateEvent(currentTime: Time) {
         timeDistribution.update(currentTime)
+        engine.notifyEventUpdate()
     }
 
     private suspend fun observeEvent(event: Event): Job {
         return CoroutineScope(coroutineContext).launch {
             event.executionFlow.collect {
-                println("node: ${node.id} event $event has been executed")
+                updateEvent(it.tau)
             }
         }
     }
@@ -66,12 +71,10 @@ class EventImpl(
                 val removed = observedEvents.keys - it.toSet() - setOf(this@EventImpl)
                 val added = it.toSet() - setOf(this@EventImpl) - observedEvents.keys
                 removed.forEach { event ->
-                    println("removed event, stop to observe")
                     observedEvents[event]?.cancel()
                     observedEvents.remove(event)
                 }
                 added.forEach { event ->
-                    println("added event, start to observe")
                     val job = observeEvent(event)
                     observedEvents[event] = job
                 }

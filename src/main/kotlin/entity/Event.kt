@@ -50,4 +50,9 @@ interface Event {
      * It's called when the environment has completed its initialization.
      */
     fun initializationComplete(currentTime: Time)
+
+    /**
+     * @return the number of the observers of this event.
+     */
+    fun getNumberOfEventExecutionObserver(): Int
 }
