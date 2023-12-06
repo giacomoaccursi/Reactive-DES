@@ -22,7 +22,7 @@ interface Environment {
     /**
      * The list of neighborhoods.
      */
-    val neighborhoods: List<Neighborhood>
+    val neighborhoods: Flow<Map<Int, Neighborhood>>
 
     /**
      * Maps node id to its position.
@@ -56,7 +56,7 @@ interface Environment {
     /**
      * @return the node's neighborhood.
      */
-    fun getNeighborhood(node: Node): Neighborhood
+    fun getNeighborhood(node: Node): Neighborhood?
 
     /**
      * @return the node instance given its id.
