@@ -61,12 +61,14 @@ fun main() {
             arrayListOf(condition),
             arrayListOf(moveAction, sumAction),
             engine = engine,
+            environment = environment,
         )
         val event2 = EventImpl(
             node1,
             arrayListOf(condition),
             arrayListOf(moveAction, sumAction),
             engine = engine,
+            environment = environment,
         )
         node1.addEvent(event1)
         node1.addEvent(event2)
@@ -76,12 +78,14 @@ fun main() {
             arrayListOf(condition),
             arrayListOf(moveAction),
             engine = engine,
+            environment = environment,
         )
         val event4 = EventImpl(
             node2,
             arrayListOf(condition),
             arrayListOf(moveAction),
             engine = engine,
+            environment = environment,
         )
         node2.addEvent(event3)
         node2.addEvent(event4)
@@ -91,12 +95,14 @@ fun main() {
             arrayListOf(condition),
             arrayListOf(moveAction),
             engine = engine,
+            environment = environment,
         )
         val event6 = EventImpl(
             node3,
             arrayListOf(condition),
             arrayListOf(moveAction),
             engine = engine,
+            environment = environment,
         )
         node3.addEvent(event5)
         node3.addEvent(event6)
@@ -106,15 +112,25 @@ fun main() {
             arrayListOf(condition),
             arrayListOf(moveAction),
             engine = engine,
+            environment = environment,
         )
         val event8 = EventImpl(
             node4,
             arrayListOf(condition),
             arrayListOf(moveAction),
             engine = engine,
+            environment = environment,
+        )
+        val event9 = EventImpl(
+            node4,
+            arrayListOf(condition),
+            arrayListOf(moveAction),
+            engine = engine,
+            environment = environment,
         )
         node4.addEvent(event7)
         node4.addEvent(event8)
+        node4.addEvent(event9)
         engine.start()
     }
 }
