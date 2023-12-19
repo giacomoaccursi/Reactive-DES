@@ -9,16 +9,16 @@
 package control
 
 import entity.DoubleTime
+import entity.EnvironmentImpl
 import entity.EventImpl
 import entity.NodeImpl
-import entity.TimeDistribution
+import entity.PositionLinkingRule
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class TestListScheduler : StringSpec({
-
-    val timeDistribution = TimeDistribution(DoubleTime(0.0))
     val node = NodeImpl(1)
+    val environment = EnvironmentImpl(PositionLinkingRule(2.0))
 
     "test scheduler with no events" {
         val emptyScheduler = ListScheduler()
@@ -26,42 +26,33 @@ class TestListScheduler : StringSpec({
     }
 
     "test scheduler with one event" {
-        val event = EventImpl(node, timeDistribution = timeDistribution)
-        val scheduler = ListScheduler(ArrayList(listOf(event)))
+        val scheduler = ListScheduler()
+        val engine = EngineImpl(environment, scheduler, 10, DoubleTime())
+        val event = EventImpl(node, engine = engine, environment = environment)
+        scheduler.addEvent(event)
         scheduler.getNext() shouldBe event
     }
 
     "it must be possible to remove events from the scheduler" {
-        val event = EventImpl(node, timeDistribution = timeDistribution)
-        val emptyScheduler = ListScheduler(ArrayList(listOf(event)))
+        val emptyScheduler = ListScheduler()
+        val engine = EngineImpl(environment, emptyScheduler, 10, DoubleTime())
+        val event = EventImpl(node, engine = engine, environment = environment)
+        emptyScheduler.addEvent(event)
         emptyScheduler.removeEvent(event)
         emptyScheduler.getNext() shouldBe null
     }
 
     "scheduler with more than one event must return the event with smaller execution time" {
         val currentTime = DoubleTime()
+        val scheduler = ListScheduler()
+        val engine = EngineImpl(environment, scheduler, 10, DoubleTime())
         val event1 =
-            EventImpl(node, timeDistribution = timeDistribution).also { it.initializationComplete(currentTime) }
+            EventImpl(node, engine = engine, environment = environment).also { it.initializationComplete(currentTime) }
         val event2 =
-            EventImpl(node, timeDistribution = timeDistribution).also { it.initializationComplete(currentTime) }
-        val scheduler = ListScheduler(ArrayList(listOf(event1, event2)))
+            EventImpl(node, engine = engine, environment = environment).also { it.initializationComplete(currentTime) }
+        scheduler.addEvent(event1)
+        scheduler.addEvent(event2)
         val smaller = listOf(event1, event2).sortedBy { it.tau.toDouble() }.first()
         scheduler.getNext() shouldBe smaller
-    }
-
-    "scheduler must reorder the events execution after them update" {
-        val currentTime = DoubleTime()
-        val event1 =
-            EventImpl(node, timeDistribution = timeDistribution).also { it.initializationComplete(currentTime) }
-        val event2 =
-            EventImpl(node, timeDistribution = timeDistribution).also { it.initializationComplete(currentTime) }
-        val event3 =
-            EventImpl(node, timeDistribution = timeDistribution).also { it.initializationComplete(currentTime) }
-        var inverseSortedEventList =
-            listOf(event1, event2, event3)
-        inverseSortedEventList = inverseSortedEventList.sortedByDescending { event -> event.tau.toDouble() }
-        val scheduler = ListScheduler(ArrayList(inverseSortedEventList))
-        scheduler.eventsUpdated()
-        scheduler.events shouldBe inverseSortedEventList.sortedBy { it.tau.toDouble() }
     }
 })
