@@ -25,11 +25,6 @@ interface Environment {
     val neighborhoods: Flow<Map<Int, Neighborhood>>
 
     /**
-     * Maps node id to its position.
-     */
-    val nodesToPosition: Flow<Map<Int, Position>>
-
-    /**
      * Add a Node to the environment.
      * @param node the node to add.
      */
@@ -68,4 +63,9 @@ interface Environment {
      * @return all nodes in the environment.
      */
     fun getAllNodes(): List<Node>
+
+    /**
+     * @return a flow for the neighbors of a node.
+     */
+    fun neighbors(node: Node): Flow<Set<Node>>
 }
