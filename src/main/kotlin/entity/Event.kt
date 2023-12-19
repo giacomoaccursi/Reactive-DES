@@ -8,7 +8,7 @@
 
 package entity
 
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Represent an event that can happen.
@@ -23,11 +23,6 @@ interface Event {
      * The global time at which this reaction is scheduled to be executed.
      */
     val tau: Time
-
-    /**
-     * Shared flow for event execution.
-     */
-    val executionFlow: SharedFlow<Event>
 
     /**
      * Executes the event.
@@ -55,4 +50,14 @@ interface Event {
      * @return the number of the observers of this event.
      */
     fun getNumberOfEventExecutionObserver(): Int
+
+    /**
+     * To call when the event is removed from the simulation.
+     */
+    fun eventRemoved()
+
+    /**
+     * Allows  to observe its execution.
+     */
+    fun observeExecution(): Flow<Event>
 }
