@@ -8,7 +8,10 @@
 
 package entity
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.mapLatest
 
 /**
  * An implementation of the environment.
@@ -17,18 +20,25 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
     Environment {
 
     override val nodes: MutableStateFlow<List<Node>> = MutableStateFlow(emptyList())
-    override val nodesToPosition: MutableStateFlow<Map<Int, Position>> = MutableStateFlow(emptyMap())
     override val neighborhoods: MutableStateFlow<Map<Int, Neighborhood>> = MutableStateFlow(emptyMap())
+    private var nodesToPosition: Map<Int, Position> = emptyMap()
 
     override fun addNode(node: Node, position: Position) {
         nodes.value += node
-        nodesToPosition.value += Pair(node.id, position)
+        nodesToPosition += Pair(node.id, position)
         updateNeighborhood(node)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun neighbors(node: Node): Flow<Set<Node>> {
+        return neighborhoods.mapLatest {
+            it[node.id]?.neighbors ?: emptySet()
+        }
     }
 
     override fun removeNode(node: Node) {
         nodes.value -= node
-        nodesToPosition.value = nodesToPosition.value.minus(node.id)
+        nodesToPosition = nodesToPosition.minus(node.id)
         neighborhoods.value[node.id]?.neighbors?.forEach {
             val nodeNeighborhood = getNeighborhood(it)
             if (nodeNeighborhood != null) {
@@ -39,12 +49,12 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
     }
 
     override fun moveNode(node: Node, position: Position) {
-        nodesToPosition.value += Pair(node.id, position)
+        nodesToPosition += Pair(node.id, position)
         updateNeighborhood(node)
     }
 
     override fun getNodePosition(node: Node): Position {
-        nodesToPosition.value[node.id].also {
+        nodesToPosition[node.id].also {
             if (it == null) {
                 val nodeExists = nodes.value.contains(node)
                 check(!nodeExists) {
@@ -65,7 +75,7 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
 
     override fun getAllNodes() = nodes.value.filter {
         // it ensures that all nodes returned have a position.
-        it.id in nodesToPosition.value.keys
+        it.id in nodesToPosition.keys
     }
 
     private fun updateNeighborhood(node: Node) {
