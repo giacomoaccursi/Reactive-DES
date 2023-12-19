@@ -25,6 +25,7 @@ class NodeImpl(
     }
 
     override fun removeEvent(event: Event) {
+        event.eventRemoved()
         events.value -= event
     }
 
