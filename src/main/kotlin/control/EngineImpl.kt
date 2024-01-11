@@ -10,7 +10,6 @@ package control
 
 import entity.Environment
 import entity.Time
-import kotlinx.coroutines.delay
 import java.util.concurrent.CountDownLatch
 
 /**
@@ -30,7 +29,6 @@ class EngineImpl(
 
     override suspend fun start() {
         scheduleEvents()
-        delay(1000)
         status = Status.RUNNING
         while (currentStep < maxSteps && status == Status.RUNNING) {
             doStep()
@@ -74,9 +72,9 @@ class EngineImpl(
             }
             currentTime = scheduledTime
             if (nextEvent.canExecute()) {
-                this.latch = CountDownLatch(nextEvent.getNumberOfEventExecutionObserver())
+                // this.latch = CountDownLatch(nextEvent.getNumberOfEventExecutionObserver())
                 nextEvent.execute()
-                waitForEventUpdate()
+                // waitForEventUpdate()
                 nextEvent.updateEvent(currentTime)
                 scheduler.eventsUpdated()
             }
@@ -85,9 +83,9 @@ class EngineImpl(
         currentStep += 1
     }
 
-    private fun waitForEventUpdate() {
-        latch.await()
-    }
+//    private fun waitForEventUpdate() {
+//        latch.await()
+//    }
 
     /**
      * Enum for the status of the simulation.
