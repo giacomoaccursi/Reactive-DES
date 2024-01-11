@@ -60,4 +60,9 @@ interface Event {
      * Allows  to observe its execution.
      */
     fun observeExecution(): Flow<Event>
+
+    /**
+     * Allows an event to notify another event of its update.
+     */
+    fun notifyUpdate()
 }
