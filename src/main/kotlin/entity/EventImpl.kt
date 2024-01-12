@@ -49,12 +49,12 @@ class EventImpl(
     override val tau: Time get() = timeDistribution.getNextOccurrence()
 
     override suspend fun execute() {
+        actions.forEach { it.execute() }
         observerLatch = CountDownLatch(executionFlow.subscriptionCount.value)
         executionFlow.emit(this)
         withContext(Dispatchers.IO) {
             observerLatch.await()
         }
-        actions.forEach { it.execute() }
     }
 
     override fun canExecute(): Boolean {
