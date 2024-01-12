@@ -33,9 +33,10 @@ fun main() {
         // Simple initialization of a simulation.
         val time = DoubleTime(0.0)
         val condition = DummyCondition()
-        val linkingRule = PositionLinkingRule(1.0)
 
-        val environment = EnvironmentImpl(linkingRule)
+        val environment = EnvironmentImpl()
+        val linkingRule = PositionLinkingRule(1.0, environment = environment)
+        environment.setLinkingRule(linkingRule)
         val node1 = NodeImpl(1)
         node1.addContent(ContentImpl(1))
         val node2 = NodeImpl(2)
