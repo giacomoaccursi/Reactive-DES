@@ -16,17 +16,18 @@ import kotlinx.coroutines.flow.mapLatest
 /**
  * An implementation of the environment.
  */
-class EnvironmentImpl(private val linkingRule: LinkingRule) :
+class EnvironmentImpl :
     Environment {
 
     override val nodes: MutableStateFlow<List<Node>> = MutableStateFlow(emptyList())
     override val neighborhoods: MutableStateFlow<Map<Int, Neighborhood>> = MutableStateFlow(emptyMap())
-    private var nodesToPosition: Map<Int, Position> = emptyMap()
+    override val nodesToPosition: MutableStateFlow<Map<Int, Position>> = MutableStateFlow(emptyMap())
+    private lateinit var linkingRule: LinkingRule
 
     override fun addNode(node: Node, position: Position) {
         nodes.value += node
-        nodesToPosition += Pair(node.id, position)
-        updateNeighborhood(node)
+        nodesToPosition.value += Pair(node.id, position)
+        // updateNeighborhood(node)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -36,25 +37,33 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
         }
     }
 
+    override suspend fun updateNeighborhoods(neighborhoods: Map<Int, Neighborhood>) {
+        this.neighborhoods.value = neighborhoods
+    }
+
+    override fun setLinkingRule(linkingRule: LinkingRule) {
+        this.linkingRule = linkingRule
+    }
+
     override fun removeNode(node: Node) {
         nodes.value -= node
-        nodesToPosition = nodesToPosition.minus(node.id)
-        neighborhoods.value[node.id]?.neighbors?.forEach {
+        nodesToPosition.value = nodesToPosition.value.minus(node.id)
+        /*neighborhoods.value[node.id]?.neighbors?.forEach {
             val nodeNeighborhood = getNeighborhood(it)
             if (nodeNeighborhood != null) {
                 neighborhoods.value += Pair(it.id, nodeNeighborhood.removeNeighbor(node))
             }
         }
-        neighborhoods.value = neighborhoods.value.minus(node.id)
+        neighborhoods.value = neighborhoods.value.minus(node.id)*/
     }
 
-    override fun moveNode(node: Node, position: Position) {
-        nodesToPosition += Pair(node.id, position)
-        updateNeighborhood(node)
+    override suspend fun moveNode(node: Node, position: Position) {
+        nodesToPosition.value += Pair(node.id, position)
+        // updateNeighborhood(node)
     }
 
     override fun getNodePosition(node: Node): Position {
-        nodesToPosition[node.id].also {
+        nodesToPosition.value[node.id].also {
             if (it == null) {
                 val nodeExists = nodes.value.contains(node)
                 check(!nodeExists) {
@@ -75,15 +84,19 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
 
     override fun getAllNodes() = nodes.value.filter {
         // it ensures that all nodes returned have a position.
-        it.id in nodesToPosition.keys
+        it.id in nodesToPosition.value.keys
     }
 
-    private fun updateNeighborhood(node: Node) {
+    /*private fun updateNeighborhood(node: Node) {
         val newNeighborhood = SimpleNeighborhood(node, linkingRule.computeNeighbors(node, this))
         val oldNeighborhood = getNeighborhood(node)
+        var eventToNotify = 0
         if (oldNeighborhood != null) {
             val lostNeighbors = oldNeighborhood.neighbors - newNeighborhood.neighbors
             val gainedNeighbors = newNeighborhood.neighbors - oldNeighborhood.neighbors
+            eventToNotify += lostNeighbors.flatMap { it.events.value }
+                .count() + gainedNeighbors.flatMap { it.events.value }
+                .count()
             lostNeighbors.forEach { neighbor ->
                 val nodeNeighborhood = getNeighborhood(neighbor)
                 if (nodeNeighborhood != null) {
@@ -105,5 +118,7 @@ class EnvironmentImpl(private val linkingRule: LinkingRule) :
             }
         }
         neighborhoods.value += Pair(node.id, newNeighborhood)
-    }
+        eventToNotify += node.events.value.count()
+        println(eventToNotify)
+    }*/
 }
