@@ -25,6 +25,11 @@ interface Environment {
     val neighborhoods: Flow<Map<Int, Neighborhood>>
 
     /**
+     * Maps every node with its position.
+     */
+    val nodesToPosition: Flow<Map<Int, Position>>
+
+    /**
      * Add a Node to the environment.
      * @param node the node to add.
      */
@@ -41,7 +46,7 @@ interface Environment {
      * @param node the node to move.
      * @param position the new position.
      */
-    fun moveNode(node: Node, position: Position)
+    suspend fun moveNode(node: Node, position: Position)
 
     /**
      * @return the position of the node.
@@ -68,4 +73,15 @@ interface Environment {
      * @return a flow for the neighbors of a node.
      */
     fun neighbors(node: Node): Flow<Set<Node>>
+
+    /**
+     * Updates all neighborhoods.
+     * @param neighborhoods all new neighborhoods.
+     */
+    suspend fun updateNeighborhoods(neighborhoods: Map<Int, Neighborhood>)
+
+    /**
+     * @param linkingRule the linking rule.
+     */
+    fun setLinkingRule(linkingRule: LinkingRule)
 }
