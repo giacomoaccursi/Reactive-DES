@@ -8,6 +8,7 @@
 
 package entity
 
+import flow.CustomMutableStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
@@ -17,24 +18,23 @@ class NodeImpl(
     override val id: Int,
 ) : Node {
 
-    override val events: MutableStateFlow<List<Event>> = MutableStateFlow(emptyList())
-    override val contents: MutableStateFlow<List<Content>> = MutableStateFlow(emptyList())
+    override val events: CustomMutableStateFlow<List<Event>> = CustomMutableStateFlow(MutableStateFlow(emptyList()))
+    override val contents: CustomMutableStateFlow<List<Content>> = CustomMutableStateFlow(MutableStateFlow(emptyList()))
 
-    override fun addEvent(event: Event) {
-        events.value += event
+    override suspend fun addEvent(event: Event) {
+        events.emit(events.value + event)
     }
 
-    override fun removeEvent(event: Event) {
-        event.eventRemoved()
-        events.value -= event
+    override suspend fun removeEvent(event: Event) {
+        events.emit(events.value - event)
     }
 
-    override fun addContent(content: Content) {
-        contents.value += content
+    override suspend fun addContent(content: Content) {
+        contents.emit(contents.value + content)
     }
 
-    override fun removeContent(content: Content) {
-        contents.value -= content
+    override suspend fun removeContent(content: Content) {
+        contents.emit(contents.value - content)
     }
 
     override fun equals(other: Any?): Boolean {

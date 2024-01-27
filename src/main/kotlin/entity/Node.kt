@@ -8,7 +8,7 @@
 
 package entity
 
-import kotlinx.coroutines.flow.StateFlow
+import flow.CustomMutableStateFlow
 
 /**
  * Represent a node in the environment.
@@ -22,34 +22,34 @@ interface Node {
     /**
      * List of all events inside the node.
      */
-    val events: StateFlow<List<Event>>
+    val events: CustomMutableStateFlow<List<Event>>
 
     /**
      * List of all contents inside the node.
      */
-    val contents: StateFlow<List<Content>>
+    val contents: CustomMutableStateFlow<List<Content>>
 
     /**
      * Adds the event to the node.
      * @param event the event to add.
      */
-    fun addEvent(event: Event)
+    suspend fun addEvent(event: Event)
 
     /**
      * Remove the event from the node.
      * @param event the event to remove.
      */
-    fun removeEvent(event: Event)
+    suspend fun removeEvent(event: Event)
 
     /**
      * Add content to the node.
      * @param content the content to add.
      */
-    fun addContent(content: Content)
+    suspend fun addContent(content: Content)
 
     /**
      * Remove content from the node.
      * @param content the content to remove.
      */
-    fun removeContent(content: Content)
+    suspend fun removeContent(content: Content)
 }
