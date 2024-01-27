@@ -8,17 +8,16 @@
 
 package entity
 
-import control.Engine
+import flow.CustomMutableSharedFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.concurrent.CountDownLatch
 import kotlin.coroutines.CoroutineContext
 
@@ -29,7 +28,6 @@ class EventImpl(
     override val node: Node,
     private val conditions: ArrayList<Condition> = ArrayList(),
     private val actions: ArrayList<Action> = ArrayList(),
-    private val engine: Engine,
     private val environment: Environment,
     coroutineContext: CoroutineContext = Dispatchers.Default,
 ) : Event {
@@ -37,24 +35,25 @@ class EventImpl(
     private val timeDistribution: TimeDistribution = TimeDistribution(DoubleTime(2.0))
     private val observedLocalEvents: HashMap<Event, Job> = hashMapOf()
     private val observedNeighborEvents: HashMap<Event, Job> = hashMapOf()
-    private val executionFlow: MutableSharedFlow<Event> = MutableSharedFlow()
+    private val executionFlow: CustomMutableSharedFlow<Event> = CustomMutableSharedFlow(MutableSharedFlow())
+
     private val coroutineScope = CoroutineScope(coroutineContext)
-    private lateinit var observerLatch: CountDownLatch
+    private var initLatch: CountDownLatch
 
     init {
-        observeLocalEvents()
-        observeNeighborEvents()
+        val observationFunctions = listOf(::observeLocalEvents, ::observeNeighborEvents)
+        initLatch = CountDownLatch(observationFunctions.size)
+        observationFunctions.forEach {
+            it.invoke()
+        }
+        initLatch.await()
     }
 
     override val tau: Time get() = timeDistribution.getNextOccurrence()
 
     override suspend fun execute() {
         actions.forEach { it.execute() }
-        observerLatch = CountDownLatch(executionFlow.subscriptionCount.value)
         executionFlow.emit(this)
-        withContext(Dispatchers.IO) {
-            observerLatch.await()
-        }
     }
 
     override fun canExecute(): Boolean {
@@ -63,10 +62,6 @@ class EventImpl(
 
     override fun initializationComplete(currentTime: Time) {
         updateEvent(currentTime)
-    }
-
-    override fun notifyUpdate() {
-        observerLatch.countDown()
     }
 
     override fun getNumberOfEventExecutionObserver() = executionFlow.subscriptionCount.value
@@ -79,31 +74,32 @@ class EventImpl(
         }
     }
 
-    override fun observeExecution(): Flow<Event> = executionFlow.asSharedFlow()
+    override fun observeExecution(): CustomMutableSharedFlow<Event> = executionFlow
 
     override fun updateEvent(currentTime: Time) {
         timeDistribution.update(currentTime)
-        engine.notifyEventUpdate()
     }
 
     private fun observeLocalEvents() {
         coroutineScope.launch {
-            node.events.collect {
+            node.events.onSubscription { initLatch.countDown() }.collect {
                 val removed = observedLocalEvents.keys - it.toSet() - setOf(this@EventImpl)
                 val added = it.toSet() - setOf(this@EventImpl) - observedLocalEvents.keys
                 removed.forEach { event ->
-                    observedLocalEvents[event]?.cancel()
+                    observedLocalEvents[event]?.cancelAndJoin()
                     observedLocalEvents.remove(event)
                 }
                 added.forEach { event ->
                     val job = launch {
-                        event.observeExecution().collect { event ->
+                        val executionFlow = event.observeExecution()
+                        executionFlow.collect { event ->
                             updateEvent(event.tau)
-                            event.notifyUpdate()
+                            executionFlow.notifyConsumed()
                         }
                     }
                     observedLocalEvents[event] = job
                 }
+                node.events.notifyConsumed()
             }
         }
     }
@@ -111,7 +107,12 @@ class EventImpl(
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun observeNeighborEvents() {
         coroutineScope.launch {
-            environment.neighbors(node).mapLatest {
+            val neighborhoodsFlow = environment.neighborhoods
+            neighborhoodsFlow.onSubscription {
+                initLatch.countDown()
+            }.mapLatest {
+                it[node.id]?.neighbors.orEmpty()
+            }.mapLatest {
                 it.flatMap { node ->
                     node.events.value
                 }
@@ -119,18 +120,20 @@ class EventImpl(
                 val removed = observedNeighborEvents.keys - events.toSet()
                 val added = events.toSet() - observedNeighborEvents.keys
                 removed.forEach { event ->
-                    observedNeighborEvents[event]?.cancel()
+                    observedNeighborEvents[event]?.cancelAndJoin()
                     observedNeighborEvents.remove(event)
                 }
                 added.forEach { event ->
                     val job = launch {
-                        event.observeExecution().collect { event ->
+                        val executionFlow = event.observeExecution()
+                        executionFlow.collect { event ->
                             updateEvent(event.tau)
-                            event.notifyUpdate()
+                            executionFlow.notifyConsumed()
                         }
                     }
                     observedNeighborEvents[event] = job
                 }
+                neighborhoodsFlow.notifyConsumed()
             }
         }
     }

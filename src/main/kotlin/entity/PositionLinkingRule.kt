@@ -10,42 +10,66 @@ package entity
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.launch
+import java.util.concurrent.CountDownLatch
+import kotlin.coroutines.CoroutineContext
 
 /**
  * A linking rule based on positions.
  * @param radius the radius in which two position are neighbors.
  */
-class PositionLinkingRule(private val radius: Double, private val environment: Environment) : LinkingRule {
+class PositionLinkingRule(
+    private val radius: Double,
+    private val environment: Environment,
+    coroutineContext: CoroutineContext = Dispatchers.Default,
+) : LinkingRule {
+    private var initLatch: CountDownLatch
+    private val coroutineScope = CoroutineScope(coroutineContext)
 
     init {
-        observeNodes()
+        val observationFunctions = listOf(::observeNodes, ::observeNodesPosition)
+        initLatch = CountDownLatch(observationFunctions.size)
+        observationFunctions.forEach {
+            it.invoke()
+        }
+        initLatch.await()
     }
 
-    override fun computeNeighbors(center: Node, environment: Environment) =
-        environment.getAllNodes().filter {
-            isNeighbor(center, it, environment)
-        }.toSet().minus(center)
+    override fun computeNeighbors(center: Node, environment: Environment) = environment.getAllNodes().filter {
+        isNeighbor(center, it, environment)
+    }.toSet().minus(center)
 
     override fun isNeighbor(center: Node, other: Node, environment: Environment): Boolean {
         return environment.getNodePosition(center).distanceTo(environment.getNodePosition(other)) <= radius
     }
 
     private fun observeNodes() {
-        CoroutineScope(Dispatchers.Default).launch {
-            environment.nodesToPosition.collect {
+        coroutineScope.launch {
+            val nodesPositionFlow = environment.nodesToPosition
+            nodesPositionFlow.onSubscription {
+                initLatch.countDown()
+            }.collect {
                 val newNeighborhoods = environment.getAllNodes().associate { node ->
                     node.id to SimpleNeighborhood(node, computeNeighbors(node, environment))
                 }
                 environment.updateNeighborhoods(newNeighborhoods)
+                nodesPositionFlow.notifyConsumed()
             }
         }
-        CoroutineScope(Dispatchers.Default).launch {
-            environment.nodes.collect {
+    }
+
+    private fun observeNodesPosition() {
+        coroutineScope.launch {
+            val nodesFlow = environment.nodes
+            nodesFlow.onSubscription {
+                initLatch.countDown()
+            }.collect {
                 val newNeighborhoods = environment.getAllNodes().associate { node ->
                     node.id to SimpleNeighborhood(node, computeNeighbors(node, environment))
                 }
                 environment.updateNeighborhoods(newNeighborhoods)
+                nodesFlow.notifyConsumed()
             }
         }
     }
