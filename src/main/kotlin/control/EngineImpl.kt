@@ -10,7 +10,6 @@ package control
 
 import entity.Environment
 import entity.Time
-import java.util.concurrent.CountDownLatch
 
 /**
  * Implementation of the engine.
@@ -25,32 +24,26 @@ class EngineImpl(
     private var currentStep: Int = 0
     private var currentTime = time
     private var status = Status.INIT
-    private lateinit var latch: CountDownLatch
 
     override suspend fun start() {
         scheduleEvents()
         status = Status.RUNNING
         while (currentStep < maxSteps && status == Status.RUNNING) {
             doStep()
-            environment.getAllNodes().forEach {
-                println(
-                    "node ${it.id} in position ${environment.getNodePosition(it)}, neighbors = ${
-                        environment.getNeighborhood(
-                            it,
-                        )?.neighbors?.map { n -> n.id }
-                    }",
-                )
-            }
+        }
+        environment.getAllNodes().forEach {
+            println(
+                "node ${it.id} in position ${environment.getNodePosition(it)}, neighbors = ${
+                    environment.getNeighborhood(
+                        it,
+                    )?.neighbors?.map { n -> n.id }
+                }",
+            )
         }
         status = Status.TERMINATED
     }
 
-    override fun notifyEventUpdate() {
-        this.latch.countDown()
-    }
-
     private fun scheduleEvents() {
-        this.latch = CountDownLatch(environment.getAllNodes().size)
         environment.getAllNodes().forEach { node ->
             node.events.value.forEach { event ->
                 event.initializationComplete(currentTime)
@@ -60,8 +53,6 @@ class EngineImpl(
     }
 
     private suspend fun doStep() {
-        println("***************************")
-        println("start step $currentStep")
         val nextEvent = scheduler.getNext()
         if (nextEvent == null) {
             status = Status.TERMINATED
@@ -72,20 +63,13 @@ class EngineImpl(
             }
             currentTime = scheduledTime
             if (nextEvent.canExecute()) {
-                // this.latch = CountDownLatch(nextEvent.getNumberOfEventExecutionObserver())
                 nextEvent.execute()
-                // waitForEventUpdate()
                 nextEvent.updateEvent(currentTime)
                 scheduler.eventsUpdated()
             }
         }
-        println("end step $currentStep")
         currentStep += 1
     }
-
-//    private fun waitForEventUpdate() {
-//        latch.await()
-//    }
 
     /**
      * Enum for the status of the simulation.
