@@ -8,7 +8,7 @@
 
 package entity
 
-import kotlinx.coroutines.flow.Flow
+import flow.CustomMutableSharedFlow
 
 /**
  * Represent an event that can happen.
@@ -59,10 +59,5 @@ interface Event {
     /**
      * Allows  to observe its execution.
      */
-    fun observeExecution(): Flow<Event>
-
-    /**
-     * Allows an event to notify another event of its update.
-     */
-    fun notifyUpdate()
+    fun observeExecution(): CustomMutableSharedFlow<Event>
 }
