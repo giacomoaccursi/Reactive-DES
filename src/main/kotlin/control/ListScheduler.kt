@@ -17,7 +17,7 @@ class ListScheduler(
     /**
      * A list of all events.
      */
-    val events: ArrayList<Event> = ArrayList(),
+    private val events: ArrayList<Event> = ArrayList(),
 ) : Scheduler {
     init {
         sortListByTau()
