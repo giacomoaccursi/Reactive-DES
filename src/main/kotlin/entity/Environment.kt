@@ -8,7 +8,7 @@
 
 package entity
 
-import kotlinx.coroutines.flow.Flow
+import flow.CustomMutableStateFlow
 
 /**
  * The environment of the simulation.
@@ -17,29 +17,29 @@ interface Environment {
     /**
      * The list of the nodes in the environment.
      */
-    val nodes: Flow<List<Node>>
+    val nodes: CustomMutableStateFlow<List<Node>>
 
     /**
      * The list of neighborhoods.
      */
-    val neighborhoods: Flow<Map<Int, Neighborhood>>
+    val neighborhoods: CustomMutableStateFlow<Map<Int, Neighborhood>>
 
     /**
      * Maps every node with its position.
      */
-    val nodesToPosition: Flow<Map<Int, Position>>
+    val nodesToPosition: CustomMutableStateFlow<Map<Int, Position>>
 
     /**
      * Add a Node to the environment.
      * @param node the node to add.
      */
-    fun addNode(node: Node, position: Position)
+    suspend fun addNode(node: Node, position: Position)
 
     /**
      * Remove node from the environment.
      * @param node the node to remove
      */
-    fun removeNode(node: Node)
+    suspend fun removeNode(node: Node)
 
     /**
      * Moves node in a new position.
@@ -68,11 +68,6 @@ interface Environment {
      * @return all nodes in the environment.
      */
     fun getAllNodes(): List<Node>
-
-    /**
-     * @return a flow for the neighbors of a node.
-     */
-    fun neighbors(node: Node): Flow<Set<Node>>
 
     /**
      * Updates all neighborhoods.

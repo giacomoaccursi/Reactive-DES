@@ -8,58 +8,41 @@
 
 package entity
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
+import flow.CustomMutableStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.mapLatest
 
 /**
  * An implementation of the environment.
  */
-class EnvironmentImpl :
-    Environment {
-
-    override val nodes: MutableStateFlow<List<Node>> = MutableStateFlow(emptyList())
-    override val neighborhoods: MutableStateFlow<Map<Int, Neighborhood>> = MutableStateFlow(emptyMap())
-    override val nodesToPosition: MutableStateFlow<Map<Int, Position>> = MutableStateFlow(emptyMap())
+class EnvironmentImpl : Environment {
+    override val nodes: CustomMutableStateFlow<List<Node>> =
+        CustomMutableStateFlow(MutableStateFlow(emptyList()))
+    override val neighborhoods: CustomMutableStateFlow<Map<Int, Neighborhood>> =
+        CustomMutableStateFlow(MutableStateFlow(emptyMap()))
+    override val nodesToPosition: CustomMutableStateFlow<Map<Int, Position>> =
+        CustomMutableStateFlow(MutableStateFlow(emptyMap()))
     private lateinit var linkingRule: LinkingRule
 
-    override fun addNode(node: Node, position: Position) {
-        nodes.value += node
-        nodesToPosition.value += Pair(node.id, position)
-        // updateNeighborhood(node)
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    override fun neighbors(node: Node): Flow<Set<Node>> {
-        return neighborhoods.mapLatest {
-            it[node.id]?.neighbors ?: emptySet()
-        }
+    override suspend fun addNode(node: Node, position: Position) {
+        nodes.emit(nodes.value + node)
+        nodesToPosition.emit(nodesToPosition.value + Pair(node.id, position))
     }
 
     override suspend fun updateNeighborhoods(neighborhoods: Map<Int, Neighborhood>) {
-        this.neighborhoods.value = neighborhoods
+        this.neighborhoods.emit(neighborhoods)
     }
 
     override fun setLinkingRule(linkingRule: LinkingRule) {
         this.linkingRule = linkingRule
     }
 
-    override fun removeNode(node: Node) {
-        nodes.value -= node
-        nodesToPosition.value = nodesToPosition.value.minus(node.id)
-        /*neighborhoods.value[node.id]?.neighbors?.forEach {
-            val nodeNeighborhood = getNeighborhood(it)
-            if (nodeNeighborhood != null) {
-                neighborhoods.value += Pair(it.id, nodeNeighborhood.removeNeighbor(node))
-            }
-        }
-        neighborhoods.value = neighborhoods.value.minus(node.id)*/
+    override suspend fun removeNode(node: Node) {
+        nodes.emit(nodes.value - node)
+        nodesToPosition.emit(nodesToPosition.value.minus(node.id))
     }
 
     override suspend fun moveNode(node: Node, position: Position) {
-        nodesToPosition.value += Pair(node.id, position)
-        // updateNeighborhood(node)
+        nodesToPosition.emit(nodesToPosition.value + Pair(node.id, position))
     }
 
     override fun getNodePosition(node: Node): Position {
