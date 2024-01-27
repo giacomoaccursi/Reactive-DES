@@ -15,8 +15,9 @@ class TestMoveNodeAction : StringSpec({
 
     "move node action must move a node of one on both the x-axis and y-axis" {
         val radius = 5.0
-        val linkingRule = PositionLinkingRule(radius)
-        val environment = EnvironmentImpl(linkingRule = linkingRule)
+        val environment = EnvironmentImpl()
+        val linkingRule = PositionLinkingRule(radius, environment)
+        environment.setLinkingRule(linkingRule)
         val node = NodeImpl(
             1,
         )
