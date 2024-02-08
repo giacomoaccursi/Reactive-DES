@@ -8,6 +8,7 @@
 
 package entity
 
+import flow.CustomMutableFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.onSubscription
@@ -36,40 +37,33 @@ class PositionLinkingRule(
         initLatch.await()
     }
 
-    override fun computeNeighbors(center: Node, environment: Environment) = environment.getAllNodes().filter {
-        isNeighbor(center, it, environment)
-    }.toSet().minus(center)
+    override fun computeNeighbors(center: Node, environment: Environment) =
+        environment.getAllNodes().filter {
+            isNeighbor(center, it, environment)
+        }.toSet().minus(center)
 
     override fun isNeighbor(center: Node, other: Node, environment: Environment): Boolean {
         return environment.getNodePosition(center).distanceTo(environment.getNodePosition(other)) <= radius
     }
 
     private fun observeNodes() {
-        coroutineScope.launch {
-            val nodesPositionFlow = environment.nodesToPosition
-            nodesPositionFlow.onSubscription {
-                initLatch.countDown()
-            }.collect {
-                val newNeighborhoods = environment.getAllNodes().associate { node ->
-                    node.id to SimpleNeighborhood(node, computeNeighbors(node, environment))
-                }
-                environment.updateNeighborhoods(newNeighborhoods)
-                nodesPositionFlow.notifyConsumed()
-            }
-        }
+        startToObserveFlow(environment.nodesToPosition)
     }
 
     private fun observeNodesPosition() {
+        startToObserveFlow(environment.nodes)
+    }
+
+    private fun startToObserveFlow(flow: CustomMutableFlow<*>) {
         coroutineScope.launch {
-            val nodesFlow = environment.nodes
-            nodesFlow.onSubscription {
+            flow.onSubscription {
                 initLatch.countDown()
             }.collect {
                 val newNeighborhoods = environment.getAllNodes().associate { node ->
                     node.id to SimpleNeighborhood(node, computeNeighbors(node, environment))
                 }
                 environment.updateNeighborhoods(newNeighborhoods)
-                nodesFlow.notifyConsumed()
+                flow.notifyConsumed()
             }
         }
     }
