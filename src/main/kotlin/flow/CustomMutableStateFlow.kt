@@ -8,20 +8,17 @@
 
 package flow
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlin.coroutines.CoroutineContext
 
 /**
  * A custom mutableStateFlow waiting for the consumption of an emitted element.
  */
 class CustomMutableStateFlow<T>(
     private val stateFlow: MutableStateFlow<T>,
-    ioDispatcher: CoroutineContext = Dispatchers.IO,
-) : CustomMutableFlow<T>(stateFlow, ioDispatcher), MutableStateFlow<T> by stateFlow {
+) : CustomMutableFlow<T>(stateFlow), MutableStateFlow<T> by stateFlow {
 
     override suspend fun emit(value: T) {
         this.performEmit(value)
