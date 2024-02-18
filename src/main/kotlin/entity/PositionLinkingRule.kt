@@ -56,14 +56,16 @@ class PositionLinkingRule(
 
     private fun startToObserveFlow(flow: CustomMutableFlow<*>) {
         coroutineScope.launch {
-            flow.onSubscription {
-                initLatch.countDown()
-            }.collect {
-                val newNeighborhoods = environment.getAllNodes().associate { node ->
-                    node.id to SimpleNeighborhood(node, computeNeighbors(node, environment))
+            flow.run {
+                this.onSubscription {
+                    initLatch.countDown()
+                }.collect {
+                    val newNeighborhoods = environment.getAllNodes().associate { node ->
+                        node.id to SimpleNeighborhood(node, computeNeighbors(node, environment))
+                    }
+                    environment.updateNeighborhoods(newNeighborhoods)
+                    this.notifyConsumed()
                 }
-                environment.updateNeighborhoods(newNeighborhoods)
-                flow.notifyConsumed()
             }
         }
     }
