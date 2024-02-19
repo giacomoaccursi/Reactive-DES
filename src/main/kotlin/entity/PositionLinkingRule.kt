@@ -8,7 +8,7 @@
 
 package entity
 
-import flow.CustomMutableFlow
+import flow.CustomMutableStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.onSubscription
@@ -54,7 +54,7 @@ class PositionLinkingRule(
         startToObserveFlow(environment.nodes)
     }
 
-    private fun startToObserveFlow(flow: CustomMutableFlow<*>) {
+    private fun startToObserveFlow(flow: CustomMutableStateFlow<*>) {
         coroutineScope.launch {
             flow.run {
                 this.onSubscription {
