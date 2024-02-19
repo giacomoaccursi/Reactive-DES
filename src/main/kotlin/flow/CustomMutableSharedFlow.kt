@@ -8,38 +8,16 @@
 
 package flow
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.StateFlow
 
 /**
  * A custom mutableSharedFlow waiting for the consumption of an emitted element.
  */
 class CustomMutableSharedFlow<T>(
     private val sharedFlow: MutableSharedFlow<T>,
-) : CustomMutableFlow<T>(sharedFlow), MutableSharedFlow<T> by sharedFlow {
+) : AbstractCustomMutableFlow<T>(sharedFlow), MutableSharedFlow<T> by sharedFlow {
 
     override suspend fun emit(value: T) {
         this.performEmit(value)
-    }
-
-    override suspend fun collect(collector: FlowCollector<T>): Nothing {
-        sharedFlow.collect(collector)
-    }
-
-    override val replayCache: List<T>
-        get() = sharedFlow.replayCache
-
-    @ExperimentalCoroutinesApi
-    override fun resetReplayCache() {
-        sharedFlow.resetReplayCache()
-    }
-
-    override val subscriptionCount: StateFlow<Int>
-        get() = sharedFlow.subscriptionCount
-
-    override fun tryEmit(value: T): Boolean {
-        return sharedFlow.tryEmit(value)
     }
 }

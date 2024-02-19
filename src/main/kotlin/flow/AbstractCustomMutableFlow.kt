@@ -17,10 +17,10 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Base implementation of a custom flow that waits for notification of consumed element.
  */
-open class CustomMutableFlow<T>(
+abstract class AbstractCustomMutableFlow<T>(
     private val flow: MutableSharedFlow<T>,
     private val ioDispatcher: CoroutineContext = Dispatchers.IO,
-) : MutableSharedFlow<T> by flow {
+) {
     private var emitLatch: CountDownLatch = CountDownLatch(0)
 
     /**
