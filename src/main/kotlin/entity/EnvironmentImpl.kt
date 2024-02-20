@@ -69,39 +69,4 @@ class EnvironmentImpl : Environment {
         // it ensures that all nodes returned have a position.
         it.id in nodesToPosition.value.keys
     }
-
-    /*private fun updateNeighborhood(node: Node) {
-        val newNeighborhood = SimpleNeighborhood(node, linkingRule.computeNeighbors(node, this))
-        val oldNeighborhood = getNeighborhood(node)
-        var eventToNotify = 0
-        if (oldNeighborhood != null) {
-            val lostNeighbors = oldNeighborhood.neighbors - newNeighborhood.neighbors
-            val gainedNeighbors = newNeighborhood.neighbors - oldNeighborhood.neighbors
-            eventToNotify += lostNeighbors.flatMap { it.events.value }
-                .count() + gainedNeighbors.flatMap { it.events.value }
-                .count()
-            lostNeighbors.forEach { neighbor ->
-                val nodeNeighborhood = getNeighborhood(neighbor)
-                if (nodeNeighborhood != null) {
-                    neighborhoods.value += Pair(neighbor.id, nodeNeighborhood.removeNeighbor(node))
-                }
-            }
-            gainedNeighbors.forEach { neighbor ->
-                val nodeNeighborhood = getNeighborhood(neighbor)
-                if (nodeNeighborhood != null) {
-                    neighborhoods.value += Pair(neighbor.id, nodeNeighborhood.addNeighbor(node))
-                }
-            }
-        } else {
-            newNeighborhood.neighbors.forEach { neighbor ->
-                val nodeNeighborhood = getNeighborhood(neighbor)
-                if (nodeNeighborhood != null) {
-                    neighborhoods.value += Pair(neighbor.id, nodeNeighborhood.addNeighbor(node))
-                }
-            }
-        }
-        neighborhoods.value += Pair(node.id, newNeighborhood)
-        eventToNotify += node.events.value.count()
-        println(eventToNotify)
-    }*/
 }
