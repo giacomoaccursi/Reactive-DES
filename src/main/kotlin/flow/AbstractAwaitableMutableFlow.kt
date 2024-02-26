@@ -17,7 +17,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Base implementation of a custom flow that waits for notification of consumed element.
  */
-abstract class AbstractCustomMutableFlow<T>(
+abstract class AbstractAwaitableMutableFlow<T>(
     private val flow: MutableSharedFlow<T>,
     private val ioDispatcher: CoroutineContext = Dispatchers.IO,
 ) {
@@ -26,7 +26,7 @@ abstract class AbstractCustomMutableFlow<T>(
     /**
      * Perform emit waiting for notification.
      */
-    suspend fun performEmit(value: T) {
+    suspend fun emitAndWait(value: T) {
         emitLatch = CountDownLatch(flow.subscriptionCount.value)
         flow.emit(value)
         withContext(ioDispatcher) {

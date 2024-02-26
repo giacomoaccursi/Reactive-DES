@@ -8,7 +8,7 @@
 
 package entity
 
-import flow.CustomMutableStateFlow
+import flow.AwaitableMutableStateFlow
 
 /**
  * The environment of the simulation.
@@ -17,17 +17,17 @@ interface Environment {
     /**
      * The list of the nodes in the environment.
      */
-    val nodes: CustomMutableStateFlow<List<Node>>
+    val nodes: AwaitableMutableStateFlow<List<Node>>
 
     /**
      * The list of neighborhoods.
      */
-    val neighborhoods: CustomMutableStateFlow<Map<Int, Neighborhood>>
+    val neighborhoods: AwaitableMutableStateFlow<Map<Int, Neighborhood>>
 
     /**
      * Maps every node with its position.
      */
-    val nodesToPosition: CustomMutableStateFlow<Map<Int, Position>>
+    val nodesToPosition: AwaitableMutableStateFlow<Map<Int, Position>>
 
     /**
      * Add a Node to the environment.

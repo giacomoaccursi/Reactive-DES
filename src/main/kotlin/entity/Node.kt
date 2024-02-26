@@ -8,7 +8,7 @@
 
 package entity
 
-import flow.CustomMutableStateFlow
+import flow.AwaitableMutableStateFlow
 
 /**
  * Represent a node in the environment.
@@ -22,12 +22,12 @@ interface Node {
     /**
      * List of all events inside the node.
      */
-    val events: CustomMutableStateFlow<List<Event>>
+    val events: AwaitableMutableStateFlow<List<Event>>
 
     /**
      * List of all contents inside the node.
      */
-    val contents: CustomMutableStateFlow<List<Content>>
+    val contents: AwaitableMutableStateFlow<List<Content>>
 
     /**
      * Adds the event to the node.
