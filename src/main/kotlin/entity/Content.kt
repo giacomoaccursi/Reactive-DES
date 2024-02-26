@@ -8,12 +8,20 @@
 
 package entity
 
+import flow.AwaitableMutableStateFlow
+
 /**
  * A container of values.
  */
 interface Content {
     /**
-     * The value.
+     * The flow of the value.
      */
-    var value: Int
+    var value: AwaitableMutableStateFlow<Int>
+
+    /**
+     * Sets the value with the provided one.
+     * @param value the new value.
+     */
+    suspend fun setValue(value: Int)
 }

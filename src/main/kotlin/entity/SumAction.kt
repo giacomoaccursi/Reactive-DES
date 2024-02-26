@@ -17,7 +17,7 @@ class SumAction(private val environment: Environment) : Action {
     override suspend fun execute() {
         val node = environment.getAllNodes()[Random.nextInt(environment.getAllNodes().size)]
         node.contents.value.forEach {
-            it.value += 1
+            it.setValue(it.value.value + 1)
         }
     }
 }

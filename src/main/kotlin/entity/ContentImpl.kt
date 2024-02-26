@@ -8,7 +8,16 @@
 
 package entity
 
+import flow.AwaitableMutableStateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+
 /**
  * Simple implementation of a content.
  */
-class ContentImpl(override var value: Int) : Content
+class ContentImpl(initialValue: Int) : Content {
+
+    override var value: AwaitableMutableStateFlow<Int> = AwaitableMutableStateFlow(MutableStateFlow(initialValue))
+    override suspend fun setValue(value: Int) {
+        this.value.emit(value)
+    }
+}
