@@ -8,19 +8,19 @@
 
 package entity
 
-import flow.CustomMutableStateFlow
+import flow.AwaitableMutableStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
  * An implementation of the environment.
  */
 class EnvironmentImpl : Environment {
-    override val nodes: CustomMutableStateFlow<List<Node>> =
-        CustomMutableStateFlow(MutableStateFlow(emptyList()))
-    override val neighborhoods: CustomMutableStateFlow<Map<Int, Neighborhood>> =
-        CustomMutableStateFlow(MutableStateFlow(emptyMap()))
-    override val nodesToPosition: CustomMutableStateFlow<Map<Int, Position>> =
-        CustomMutableStateFlow(MutableStateFlow(emptyMap()))
+    override val nodes: AwaitableMutableStateFlow<List<Node>> =
+        AwaitableMutableStateFlow(MutableStateFlow(emptyList()))
+    override val neighborhoods: AwaitableMutableStateFlow<Map<Int, Neighborhood>> =
+        AwaitableMutableStateFlow(MutableStateFlow(emptyMap()))
+    override val nodesToPosition: AwaitableMutableStateFlow<Map<Int, Position>> =
+        AwaitableMutableStateFlow(MutableStateFlow(emptyMap()))
     private lateinit var linkingRule: LinkingRule
 
     override suspend fun addNode(node: Node, position: Position) {

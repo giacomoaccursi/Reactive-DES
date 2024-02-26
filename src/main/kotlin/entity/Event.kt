@@ -8,7 +8,7 @@
 
 package entity
 
-import flow.CustomMutableSharedFlow
+import flow.AwaitableMutableSharedFlow
 
 /**
  * Represent an event that can happen.
@@ -59,5 +59,5 @@ interface Event {
     /**
      * Allows  to observe its execution.
      */
-    fun observeExecution(): CustomMutableSharedFlow<Event>
+    fun observeExecution(): AwaitableMutableSharedFlow<Event>
 }

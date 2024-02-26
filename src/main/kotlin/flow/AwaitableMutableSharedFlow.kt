@@ -13,11 +13,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 /**
  * A custom mutableSharedFlow waiting for the consumption of an emitted element.
  */
-class CustomMutableSharedFlow<T>(
+class AwaitableMutableSharedFlow<T>(
     private val sharedFlow: MutableSharedFlow<T>,
-) : AbstractCustomMutableFlow<T>(sharedFlow), MutableSharedFlow<T> by sharedFlow {
+) : AbstractAwaitableMutableFlow<T>(sharedFlow), MutableSharedFlow<T> by sharedFlow {
 
     override suspend fun emit(value: T) {
-        this.performEmit(value)
+        this.emitAndWait(value)
     }
 }

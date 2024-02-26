@@ -8,7 +8,7 @@
 
 package entity
 
-import flow.CustomMutableSharedFlow
+import flow.AwaitableMutableSharedFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,7 +35,7 @@ class EventImpl(
     private val timeDistribution: TimeDistribution = TimeDistribution(DoubleTime(2.0))
     private val observedLocalEvents: HashMap<Event, Job> = hashMapOf()
     private val observedNeighborEvents: HashMap<Event, Job> = hashMapOf()
-    private val executionFlow: CustomMutableSharedFlow<Event> = CustomMutableSharedFlow(MutableSharedFlow())
+    private val executionFlow: AwaitableMutableSharedFlow<Event> = AwaitableMutableSharedFlow(MutableSharedFlow())
 
     private val coroutineScope = CoroutineScope(coroutineContext)
     private var initLatch: CountDownLatch
@@ -74,7 +74,7 @@ class EventImpl(
         }
     }
 
-    override fun observeExecution(): CustomMutableSharedFlow<Event> = executionFlow
+    override fun observeExecution(): AwaitableMutableSharedFlow<Event> = executionFlow
 
     override fun updateEvent(currentTime: Time) {
         timeDistribution.update(currentTime)
@@ -83,7 +83,9 @@ class EventImpl(
     private fun observeLocalEvents() {
         coroutineScope.launch {
             node.events.run {
-                this.onSubscription { initLatch.countDown() }.collect {
+                this.onSubscription {
+                    initLatch.countDown()
+                }.collect {
                     val removed = observedLocalEvents.keys - it.toSet() - setOf(this@EventImpl)
                     val added = it.toSet() - setOf(this@EventImpl) - observedLocalEvents.keys
                     removed.forEach { event ->
@@ -116,10 +118,9 @@ class EventImpl(
                     initLatch.countDown()
                 }.mapLatest {
                     it[node.id]?.neighbors.orEmpty()
-                }.mapLatest {
-                    it.flatMap { node ->
-                        node.events.value
-                    }
+                        .flatMap { node ->
+                            node.events.value
+                        }
                 }.collect { events ->
                     val removed = observedNeighborEvents.keys - events.toSet()
                     val added = events.toSet() - observedNeighborEvents.keys
