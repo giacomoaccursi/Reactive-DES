@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
  */
 class AwaitableMutableSharedFlow<T>(
     private val sharedFlow: MutableSharedFlow<T>,
-) : AbstractAwaitableMutableFlow<T>(sharedFlow), MutableSharedFlow<T> by sharedFlow {
+) : AwaitableMutableFlow<T>(sharedFlow), MutableSharedFlow<T> by sharedFlow {
 
     override suspend fun emit(value: T) {
         this.emitAndWait(value)

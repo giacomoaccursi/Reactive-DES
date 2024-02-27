@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
  */
 class AwaitableMutableStateFlow<T>(
     private val stateFlow: MutableStateFlow<T>,
-) : AbstractAwaitableMutableFlow<T>(stateFlow), MutableStateFlow<T> by stateFlow {
+) : AwaitableMutableFlow<T>(stateFlow), MutableStateFlow<T> by stateFlow {
 
     override suspend fun emit(value: T) {
         this.emitAndWait(value)

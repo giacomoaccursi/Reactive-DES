@@ -17,7 +17,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Base implementation of a custom flow that waits for notification of consumed element.
  */
-abstract class AbstractAwaitableMutableFlow<T>(
+open class AwaitableMutableFlow<T>(
     private val flow: MutableSharedFlow<T>,
     private val ioDispatcher: CoroutineContext = Dispatchers.IO,
 ) {
