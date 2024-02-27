@@ -23,7 +23,7 @@ class TestSumAction : StringSpec({
         val action = SumAction(environment)
         action.execute()
         node.contents.value.forEach {
-            it.value shouldBeExactly value + 1
+            it.value.value shouldBeExactly value + 1
         }
     }
 })
