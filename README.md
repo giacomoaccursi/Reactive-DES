@@ -1,3 +1,3 @@
 # DES Reactive Engine 
-A reactive engine for Discrete Event Simulator
+A reactive Discrete Event Simulator
 
