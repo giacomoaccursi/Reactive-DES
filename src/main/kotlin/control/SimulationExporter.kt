@@ -13,6 +13,7 @@ import entity.Time
 import org.yaml.snakeyaml.DumperOptions
 import org.yaml.snakeyaml.Yaml
 import java.io.File
+import java.io.IOException
 import java.util.*
 
 /**
@@ -31,33 +32,39 @@ class SimulationExporter {
         options.isPrettyFlow = true
         val yaml = Yaml(options)
         val resourceFolder = File("src/main/resources")
-        val outputFile = File(resourceFolder, "step-$currentStep.yml").bufferedWriter()
-        val time = mapOf("time" to String.format(Locale.getDefault(), "%.2f", currentTime.toDouble()).toDouble())
-        val step = mapOf("step" to currentStep)
-        val nodes = mapOf("nodes" to getEnvironmentNodes(environment).map { it.id })
-        val neighborhoods = mapOf("neighborhoods" to getEnvironmentNeighborhood(environment))
-        val eventsDependencies = mapOf(
-            "events" to getEventDependencies(environment).map {
-                mapOf(
-                    "id" to it.key.id,
-                    "node" to it.key.node.id,
-                    "dependencies" to it.value.map { ev -> ev.id },
+        val outputFile = File(resourceFolder, "step-$currentStep.yml")
+        try {
+            outputFile.bufferedWriter().use { writer ->
+                val time =
+                    mapOf("time" to String.format(Locale.getDefault(), "%.2f", currentTime.toDouble()).toDouble())
+                val step = mapOf("step" to currentStep)
+                val nodes = mapOf("nodes" to getEnvironmentNodes(environment).map { it.id })
+                val neighborhoods = mapOf("neighborhoods" to getEnvironmentNeighborhood(environment))
+                val eventsDependencies = mapOf(
+                    "events" to getEventDependencies(environment).map {
+                        mapOf(
+                            "id" to it.key.id,
+                            "node" to it.key.node.id,
+                            "dependencies" to it.value.map { ev -> ev.id },
+                        )
+                    },
                 )
-            },
-        )
-        val futureEventList =
-            mapOf(
-                "event_list" to getFutureEventList(scheduler).map {
+                val futureEventList =
                     mapOf(
-                        "id" to it.key,
-                        "time" to String.format(Locale.getDefault(), "%.2f", it.value).toDouble(),
+                        "event_list" to getFutureEventList(scheduler).map {
+                            mapOf(
+                                "id" to it.key,
+                                "time" to String.format(Locale.getDefault(), "%.2f", it.value).toDouble(),
+                            )
+                        },
                     )
-                },
-            )
-        getFutureEventList(scheduler)
-        val yamlMap = time + step + nodes + neighborhoods + eventsDependencies + futureEventList
-        yaml.dump(yamlMap, outputFile)
-        outputFile.close()
+                getFutureEventList(scheduler)
+                val yamlMap = time + step + nodes + neighborhoods + eventsDependencies + futureEventList
+                yaml.dump(yamlMap, writer)
+            }
+        } catch (e: IOException) {
+            e.toString()
+        }
     }
 
     private fun getEnvironmentNodes(environment: Environment) =
