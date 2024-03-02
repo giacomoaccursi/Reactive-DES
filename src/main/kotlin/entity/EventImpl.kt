@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.launch
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CountDownLatch
 import kotlin.coroutines.CoroutineContext
 
@@ -30,11 +31,13 @@ class EventImpl(
     private val actions: ArrayList<Action> = ArrayList(),
     private val environment: Environment,
     coroutineContext: CoroutineContext = Dispatchers.Default,
+    override val id: Int,
 ) : Event {
 
     private val timeDistribution: TimeDistribution = TimeDistribution(DoubleTime(2.0))
-    private val observedLocalEvents: HashMap<Event, Job> = hashMapOf()
-    private val observedNeighborEvents: HashMap<Event, Job> = hashMapOf()
+    private val observedLocalEvents = ConcurrentHashMap<Event, Job>()
+    private val observedNeighborEvents = ConcurrentHashMap<Node, HashMap<Event, Job>>()
+    private val observedNeighbors = ConcurrentHashMap<Node, Job>()
     private val executionFlow: AwaitableMutableSharedFlow<Event> = AwaitableMutableSharedFlow(MutableSharedFlow())
 
     private val coroutineScope = CoroutineScope(coroutineContext)
@@ -65,16 +68,20 @@ class EventImpl(
     }
 
     override fun getNumberOfEventExecutionObserver() = executionFlow.subscriptionCount.value
-    override fun eventRemoved() {
+    override suspend fun eventRemoved() {
         observedLocalEvents.values.forEach {
-            it.cancel()
+            it.cancelAndJoin()
         }
         observedNeighborEvents.values.forEach {
-            it.cancel()
+            it.values.forEach { job -> job.cancelAndJoin() }
         }
     }
 
     override fun observeExecution(): AwaitableMutableSharedFlow<Event> = executionFlow
+
+    override fun getObservedEvents(): List<Event> {
+        return (observedLocalEvents.keys().toList() + observedNeighborEvents.values.flatMap { it.keys })
+    }
 
     override fun updateEvent(currentTime: Time) {
         timeDistribution.update(currentTime)
@@ -118,27 +125,46 @@ class EventImpl(
                     initLatch.countDown()
                 }.mapLatest {
                     it[node.id]?.neighbors.orEmpty()
-                        .flatMap { node ->
-                            node.events.value
+                }.collect { neighbors ->
+                    val removedNeighbors = observedNeighbors.keys - neighbors
+                    val addedNeighbors = neighbors - observedNeighbors.keys
+                    removedNeighbors.forEach { node ->
+                        observedNeighbors[node]?.cancelAndJoin()
+                        observedNeighbors.remove(node)
+                        observedNeighborEvents[node]?.values?.forEach {
+                            it.cancelAndJoin()
                         }
-                }.collect { events ->
-                    val removed = observedNeighborEvents.keys - events.toSet()
-                    val added = events.toSet() - observedNeighborEvents.keys
-                    removed.forEach { event ->
-                        observedNeighborEvents[event]?.cancelAndJoin()
-                        observedNeighborEvents.remove(event)
+                        observedNeighborEvents.remove(node)
                     }
-                    added.forEach { event ->
+                    addedNeighbors.forEach { node ->
                         val job = launch {
-                            val executionFlow = event.observeExecution()
-                            executionFlow.run {
-                                this.collect { event ->
-                                    updateEvent(event.tau)
+                            node.events.run {
+                                this.collect { events ->
+                                    val added =
+                                        events.toSet() - observedNeighborEvents[node]?.keys.orEmpty()
+                                    observedNeighborEvents[node]?.keys?.minus(events.map { it.id }.toSet())
+                                        ?.forEach { event ->
+                                            observedNeighborEvents[node]?.get(event)?.cancelAndJoin()
+                                            observedNeighborEvents.remove(event)
+                                        }
+                                    added.forEach { event ->
+                                        val job = launch {
+                                            val executionFlow = event.observeExecution()
+                                            executionFlow.run {
+                                                this.collect { ev ->
+                                                    updateEvent(ev.tau)
+                                                    this.notifyConsumed()
+                                                }
+                                            }
+                                        }
+                                        this@EventImpl.observedNeighborEvents[node]?.set(event, job)
+                                    }
                                     this.notifyConsumed()
                                 }
                             }
                         }
-                        observedNeighborEvents[event] = job
+                        this@EventImpl.observedNeighbors[node] = job
+                        this@EventImpl.observedNeighborEvents[node] = hashMapOf()
                     }
                     this.notifyConsumed()
                 }
