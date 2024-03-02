@@ -22,6 +22,7 @@ repositories {
 dependencies {
     api(libs.apache.commons.math3)
     api(libs.kotlin.coroutines.core)
+    api(libs.snake.yaml)
     implementation(libs.kotlin.stdlib)
     testImplementation(libs.bundles.kotlin.testing)
 }
