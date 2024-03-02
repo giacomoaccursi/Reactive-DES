@@ -19,14 +19,14 @@ class TestNodeImpl : StringSpec({
 
     "events are added corretly to the node" {
         val node = NodeImpl(1)
-        node.addEvent(EventImpl(node, environment = environment))
-        node.addEvent(EventImpl(node, environment = environment))
+        node.addEvent(EventImpl(node, environment = environment, id = 1))
+        node.addEvent(EventImpl(node, environment = environment, id = 2))
         node.events.value.size shouldBeExactly 2
     }
 
     "events are removed correctly from the node" {
         val node = NodeImpl(1)
-        val event = EventImpl(node, environment = environment)
+        val event = EventImpl(node, environment = environment, id = 1)
         node.addEvent(event)
         node.removeEvent(event)
         node.events.value.size shouldBeExactly 0

@@ -26,14 +26,14 @@ class TestListScheduler : StringSpec({
 
     "test scheduler with one event" {
         val scheduler = ListScheduler()
-        val event = EventImpl(node, environment = environment)
+        val event = EventImpl(node, environment = environment, id = 1)
         scheduler.addEvent(event)
         scheduler.getNext() shouldBe event
     }
 
     "it must be possible to remove events from the scheduler" {
         val emptyScheduler = ListScheduler()
-        val event = EventImpl(node, environment = environment)
+        val event = EventImpl(node, environment = environment, id = 1)
         emptyScheduler.addEvent(event)
         emptyScheduler.removeEvent(event)
         emptyScheduler.getNext() shouldBe null
@@ -43,9 +43,9 @@ class TestListScheduler : StringSpec({
         val currentTime = DoubleTime()
         val scheduler = ListScheduler()
         val event1 =
-            EventImpl(node, environment = environment).also { it.initializationComplete(currentTime) }
+            EventImpl(node, environment = environment, id = 1).also { it.initializationComplete(currentTime) }
         val event2 =
-            EventImpl(node, environment = environment).also { it.initializationComplete(currentTime) }
+            EventImpl(node, environment = environment, id = 2).also { it.initializationComplete(currentTime) }
         scheduler.addEvent(event1)
         scheduler.addEvent(event2)
         val smaller = listOf(event1, event2).sortedBy { it.tau.toDouble() }.first()

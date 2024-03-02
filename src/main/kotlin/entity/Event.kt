@@ -15,6 +15,11 @@ import flow.AwaitableMutableSharedFlow
  */
 interface Event {
     /**
+     * The id of the event.
+     */
+    val id: Int
+
+    /**
      * The node in which this event executes.
      */
     val node: Node
@@ -54,10 +59,15 @@ interface Event {
     /**
      * To call when the event is removed from the simulation.
      */
-    fun eventRemoved()
+    suspend fun eventRemoved()
 
     /**
      * Allows  to observe its execution.
      */
     fun observeExecution(): AwaitableMutableSharedFlow<Event>
+
+    /**
+     * @return the list of the events observed by this event.
+     */
+    fun getObservedEvents(): List<Event>
 }

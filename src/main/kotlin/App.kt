@@ -31,7 +31,6 @@ suspend fun main() {
     // Simple initialization of a simulation.
     val time = DoubleTime(0.0)
     val condition = DummyCondition()
-
     val environment = EnvironmentImpl()
     val linkingRule = PositionLinkingRule(1.0, environment = environment)
     environment.setLinkingRule(linkingRule)
@@ -43,12 +42,14 @@ suspend fun main() {
     node3.addContent(ContentImpl(1))
     val node4 = NodeImpl(4)
     node4.addContent(ContentImpl(1))
+
     listOf(node1, node2, node3, node4).forEach { node ->
         environment.addNode(
             node,
             Position(0.0, 0.0),
         )
     }
+
     val moveAction = MoveNodeAction(environment)
     val sumAction = SumAction(environment)
 
@@ -60,12 +61,14 @@ suspend fun main() {
         arrayListOf(condition),
         arrayListOf(moveAction, sumAction),
         environment = environment,
+        id = 1,
     )
     val event2 = EventImpl(
         node1,
         arrayListOf(condition),
         arrayListOf(moveAction, sumAction),
         environment = environment,
+        id = 2,
     )
     node1.addEvent(event1)
     node1.addEvent(event2)
@@ -75,12 +78,14 @@ suspend fun main() {
         arrayListOf(condition),
         arrayListOf(moveAction),
         environment = environment,
+        id = 3,
     )
     val event4 = EventImpl(
         node2,
         arrayListOf(condition),
         arrayListOf(moveAction),
         environment = environment,
+        id = 4,
     )
     node2.addEvent(event3)
     node2.addEvent(event4)
@@ -90,12 +95,14 @@ suspend fun main() {
         arrayListOf(condition),
         arrayListOf(moveAction),
         environment = environment,
+        id = 5,
     )
     val event6 = EventImpl(
         node3,
         arrayListOf(condition),
         arrayListOf(moveAction),
         environment = environment,
+        id = 6,
     )
     node3.addEvent(event5)
     node3.addEvent(event6)
@@ -105,21 +112,18 @@ suspend fun main() {
         arrayListOf(condition),
         arrayListOf(moveAction),
         environment = environment,
+        id = 7,
     )
     val event8 = EventImpl(
         node4,
         arrayListOf(condition),
         arrayListOf(moveAction),
         environment = environment,
+        id = 8,
     )
-    val event9 = EventImpl(
-        node4,
-        arrayListOf(condition),
-        arrayListOf(moveAction),
-        environment = environment,
-    )
+
     node4.addEvent(event7)
     node4.addEvent(event8)
-    node4.addEvent(event9)
+
     engine.start()
 }
