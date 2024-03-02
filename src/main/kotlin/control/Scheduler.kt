@@ -35,4 +35,9 @@ interface Scheduler {
      * Must be called when at least one event updated its time.
      */
     fun eventsUpdated()
+
+    /**
+     * @return the list of events, ordered by putative time.
+     */
+    fun getEventList(): List<Event>
 }

@@ -39,6 +39,8 @@ class ListScheduler(
         this.sortListByTau()
     }
 
+    override fun getEventList(): List<Event> = events
+
     private fun sortListByTau() {
         events.sortBy { it.tau.toDouble() }
     }
