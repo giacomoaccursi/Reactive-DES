@@ -117,6 +117,26 @@ class EventImpl(
         }
     }
 
+    private suspend fun stopToObserveOldNeighbors(neighbors: Set<Node>) {
+        val removedNeighbors = observedNeighbors.keys - neighbors
+        removedNeighbors.forEach { node ->
+            observedNeighbors[node]?.cancelAndJoin()
+            observedNeighbors.remove(node)
+            observedNeighborEvents[node]?.values?.forEach {
+                it.cancelAndJoin()
+            }
+            observedNeighborEvents.remove(node)
+        }
+    }
+
+    private suspend fun stopToObserveRemovedEvents(events: List<Event>) {
+        observedNeighborEvents[node]?.keys?.minus(events.map { it.id }.toSet())
+            ?.forEach { event ->
+                observedNeighborEvents[node]?.get(event)?.cancelAndJoin()
+                observedNeighborEvents.remove(event)
+            }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun observeNeighborEvents() {
         coroutineScope.launch {
@@ -126,27 +146,14 @@ class EventImpl(
                 }.mapLatest {
                     it[node.id]?.neighbors.orEmpty()
                 }.collect { neighbors ->
-                    val removedNeighbors = observedNeighbors.keys - neighbors
+                    stopToObserveOldNeighbors(neighbors)
                     val addedNeighbors = neighbors - observedNeighbors.keys
-                    removedNeighbors.forEach { node ->
-                        observedNeighbors[node]?.cancelAndJoin()
-                        observedNeighbors.remove(node)
-                        observedNeighborEvents[node]?.values?.forEach {
-                            it.cancelAndJoin()
-                        }
-                        observedNeighborEvents.remove(node)
-                    }
                     addedNeighbors.forEach { node ->
                         val job = launch {
                             node.events.run {
                                 this.collect { events ->
-                                    val added =
-                                        events.toSet() - observedNeighborEvents[node]?.keys.orEmpty()
-                                    observedNeighborEvents[node]?.keys?.minus(events.map { it.id }.toSet())
-                                        ?.forEach { event ->
-                                            observedNeighborEvents[node]?.get(event)?.cancelAndJoin()
-                                            observedNeighborEvents.remove(event)
-                                        }
+                                    stopToObserveRemovedEvents(events)
+                                    val added = events.toSet() - observedNeighborEvents[node]?.keys.orEmpty()
                                     added.forEach { event ->
                                         val job = launch {
                                             val executionFlow = event.observeExecution()
@@ -157,14 +164,14 @@ class EventImpl(
                                                 }
                                             }
                                         }
-                                        this@EventImpl.observedNeighborEvents[node]?.set(event, job)
+                                        observedNeighborEvents[node]?.set(event, job)
                                     }
                                     this.notifyConsumed()
                                 }
                             }
                         }
-                        this@EventImpl.observedNeighbors[node] = job
-                        this@EventImpl.observedNeighborEvents[node] = hashMapOf()
+                        observedNeighbors[node] = job
+                        observedNeighborEvents[node] = hashMapOf()
                     }
                     this.notifyConsumed()
                 }
