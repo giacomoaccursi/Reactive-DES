@@ -28,17 +28,13 @@ class EngineImpl(
     override suspend fun start() {
         scheduleEvents()
         status = Status.RUNNING
+
+        val exporter = SimulationExporter()
+        exporter.exportData(environment, currentTime, currentStep, scheduler)
+
         while (currentStep < maxSteps && status == Status.RUNNING) {
             doStep()
-        }
-        environment.getAllNodes().forEach {
-            println(
-                "node ${it.id} in position ${environment.getNodePosition(it)}, neighbors = ${
-                    environment.getNeighborhood(
-                        it,
-                    )?.neighbors?.map { n -> n.id }
-                }",
-            )
+            exporter.exportData(environment, currentTime, currentStep, scheduler)
         }
         status = Status.TERMINATED
     }
