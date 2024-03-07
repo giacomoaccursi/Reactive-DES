@@ -1,3 +1,12 @@
+## [1.0.1](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.0...1.0.1) (2024-03-07)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlin:kotlin-stdlib to v1.9.23 ([92dea1a](https://github.com/giacomoaccursi/Reactive-DES/commit/92dea1a4daa144210d06119adea2a311f87b23c9))
+* **deps:** update plugin kotlin-qa to v0.60.2 ([54f2cdb](https://github.com/giacomoaccursi/Reactive-DES/commit/54f2cdbb2736cdaadd7a3702ecc6048b5bc35f30))
+* **deps:** update plugin kotlin-qa to v0.60.3 ([ab1d2bf](https://github.com/giacomoaccursi/Reactive-DES/commit/ab1d2bfc6a97e727238c121d2ed8acfb55d7476c))
+
 ## 1.0.0 (2024-03-03)
 
 
