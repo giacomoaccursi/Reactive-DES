@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.1...1.0.2) (2024-03-08)
+
+
+### Documentation
+
+* **deps:** update plugin dokka to v1.9.20 ([4aadcd6](https://github.com/giacomoaccursi/Reactive-DES/commit/4aadcd631bbf59fd40406ee800787c339f496f79))
+
 ## [1.0.1](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.0...1.0.1) (2024-03-07)
 
 
