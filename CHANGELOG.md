@@ -1,3 +1,34 @@
+## [1.0.3](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.2...1.0.3) (2024-05-07)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlin:kotlin-stdlib to v1.9.24 ([d647d3e](https://github.com/giacomoaccursi/Reactive-DES/commit/d647d3e86928bc1ce277d5d2e265689c6658745d))
+* **deps:** update dependency gradle to v8.7 ([44eb690](https://github.com/giacomoaccursi/Reactive-DES/commit/44eb690fd83bcc526f5da63754cd4afd84785236))
+* **deps:** update kotest to v5.8.1 ([9c6da3c](https://github.com/giacomoaccursi/Reactive-DES/commit/9c6da3c33bc4c9964a7b5ed5fd92a7251cf68746))
+* **deps:** update node.js to 20.12 ([8e12613](https://github.com/giacomoaccursi/Reactive-DES/commit/8e126137a75bd26c729a7723740c368efd34810b))
+* **deps:** update plugin com.gradle.enterprise to v3.17 ([e017724](https://github.com/giacomoaccursi/Reactive-DES/commit/e017724935c9128c937f8126ae2e7cb83c8348d1))
+* **deps:** update plugin com.gradle.enterprise to v3.17.1 ([28b8aea](https://github.com/giacomoaccursi/Reactive-DES/commit/28b8aea36fb9b747352246b6328d59e558bda8d6))
+* **deps:** update plugin com.gradle.enterprise to v3.17.2 ([e4d0329](https://github.com/giacomoaccursi/Reactive-DES/commit/e4d0329d23d9aa3328198d912702b6dea79fd2fd))
+* **deps:** update plugin kotlin-qa to v0.60.4 ([d482e09](https://github.com/giacomoaccursi/Reactive-DES/commit/d482e0912a4ccea727e61b026e62b1a03dbc487d))
+* **deps:** update plugin kotlin-qa to v0.61.0 ([653de75](https://github.com/giacomoaccursi/Reactive-DES/commit/653de75050b3581f71ec0b1f9a26a356a280caf4))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.2 ([ad4a6be](https://github.com/giacomoaccursi/Reactive-DES/commit/ad4a6be04b3a5cd6fa17bbb880af5734c7e14338))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.3 ([8bff72c](https://github.com/giacomoaccursi/Reactive-DES/commit/8bff72cae3c9fe9006f010fb828e113dce91a105))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.4 ([2415e55](https://github.com/giacomoaccursi/Reactive-DES/commit/2415e552258db05877c58d1db2d4f0cd6a87f589))
+
+
+### Build and continuous integration
+
+* **deps:** update codecov/codecov-action action to v4.1.1 ([d2b9a2c](https://github.com/giacomoaccursi/Reactive-DES/commit/d2b9a2ca00ed7bcc26714210abc2571b7914353a))
+* **deps:** update codecov/codecov-action action to v4.2.0 ([65123ca](https://github.com/giacomoaccursi/Reactive-DES/commit/65123ca9e8f4131e53aaacc2b6355e263129f93d))
+* **deps:** update codecov/codecov-action action to v4.3.0 ([82ec045](https://github.com/giacomoaccursi/Reactive-DES/commit/82ec04500e4f5d1602b3a68e3d498256945bc680))
+* **deps:** update codecov/codecov-action action to v4.3.1 ([cdf79d9](https://github.com/giacomoaccursi/Reactive-DES/commit/cdf79d9e75e3acb08290cb1e504b7867e0968289))
+* **deps:** update gradle/wrapper-validation-action action to v2.1.2 ([3bb9191](https://github.com/giacomoaccursi/Reactive-DES/commit/3bb91913e336d4f25d177ecc337452051d5ef15c))
+* **deps:** update gradle/wrapper-validation-action action to v2.1.3 ([851ee9c](https://github.com/giacomoaccursi/Reactive-DES/commit/851ee9cec622dc7ec44076016dcabfcb8cfa2f37))
+* **deps:** update gradle/wrapper-validation-action action to v3 ([2047d40](https://github.com/giacomoaccursi/Reactive-DES/commit/2047d4090dfcd095e031487e77c4634a113ec527))
+* **deps:** update gradle/wrapper-validation-action action to v3.3.1 ([2e1925c](https://github.com/giacomoaccursi/Reactive-DES/commit/2e1925ce6d68cdc978454e03eb8d64938966a08f))
+* **deps:** update gradle/wrapper-validation-action action to v3.3.2 ([45b0f18](https://github.com/giacomoaccursi/Reactive-DES/commit/45b0f18c911aa187e99e5959efb1e83b5e0c88c8))
+
 ## [1.0.2](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.1...1.0.2) (2024-03-08)
 
 
