@@ -1,3 +1,15 @@
+## [1.0.4](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.3...1.0.4) (2024-05-11)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlinx:kotlinx-coroutines-core to v1.8.1 ([483e5db](https://github.com/giacomoaccursi/Reactive-DES/commit/483e5dbc1896f02ba3b141704392cbd11cfdd2af))
+* **deps:** update kotest to v5.9.0 ([eddc9c5](https://github.com/giacomoaccursi/Reactive-DES/commit/eddc9c5fa5814350f0106e2f65bac7bb5ec07365))
+* **deps:** update node.js to 20.13 ([50b73ae](https://github.com/giacomoaccursi/Reactive-DES/commit/50b73ae2bcc7535aec88d8cfe5b39a385b2c838e))
+* **deps:** update plugin com.gradle.enterprise to v3.17.3 ([769c507](https://github.com/giacomoaccursi/Reactive-DES/commit/769c507db61269928aeca0aada05a578bbe6cb3c))
+* **deps:** update plugin kotlin-qa to v0.62.0 ([722b6c5](https://github.com/giacomoaccursi/Reactive-DES/commit/722b6c5ad4967f78194330ba97b0c84f51bf6089))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.5 ([fd2d21a](https://github.com/giacomoaccursi/Reactive-DES/commit/fd2d21a774e83470eb25a22e4be9097e5c636930))
+
 ## [1.0.3](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.2...1.0.3) (2024-05-07)
 
 
