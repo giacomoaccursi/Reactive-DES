@@ -1,3 +1,16 @@
+## [1.0.5](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.4...1.0.5) (2024-05-21)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlin:kotlin-stdlib to v2 ([6281c09](https://github.com/giacomoaccursi/Reactive-DES/commit/6281c090ad19e0705c0f47d8ff25e0ca8552e513))
+* **deps:** update plugin com.gradle.enterprise to v3.17.4 ([4260f29](https://github.com/giacomoaccursi/Reactive-DES/commit/4260f29a6302a5cc1530227fc668579533d6c577))
+
+
+### Build and continuous integration
+
+* **deps:** update codecov/codecov-action action to v4.4.0 ([e087289](https://github.com/giacomoaccursi/Reactive-DES/commit/e087289010a4fd4f11655ecbc99b9758c09e08f2))
+
 ## [1.0.4](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.3...1.0.4) (2024-05-11)
 
 
