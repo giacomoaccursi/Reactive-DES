@@ -1,3 +1,19 @@
+## [1.0.7](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.6...1.0.7) (2024-08-22)
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlin:kotlin-stdlib to v2.0.20 ([cc1a419](https://github.com/giacomoaccursi/Reactive-DES/commit/cc1a419bf19d72a434475c0c8fe8c3ce90751fde))
+* **deps:** update dependency gradle to v8.10 ([97d3bc8](https://github.com/giacomoaccursi/Reactive-DES/commit/97d3bc82ab0ffa11f0a4c92962845a465164fcb5))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.96 ([abbe9e8](https://github.com/giacomoaccursi/Reactive-DES/commit/abbe9e80c53055eafff69a8f612aeb839f2dc521))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.97 ([da19851](https://github.com/giacomoaccursi/Reactive-DES/commit/da19851c1ed6f8f3fb77350cb0d45cfd421068a5))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.98 ([e79f2a7](https://github.com/giacomoaccursi/Reactive-DES/commit/e79f2a73a83f5a8888aa555bfbd9bd4bf9e6505c))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.99 ([0259a04](https://github.com/giacomoaccursi/Reactive-DES/commit/0259a044d9eed08d4b08281484338f44286e11ec))
+* **deps:** update node.js to 20.17 ([c97fda0](https://github.com/giacomoaccursi/Reactive-DES/commit/c97fda02aed192217952bec6507069ad644c8d47))
+* **deps:** update plugin com.gradle.enterprise to v3.18 ([e97b7b2](https://github.com/giacomoaccursi/Reactive-DES/commit/e97b7b213f2240515e4fefb50063f7aacec38866))
+* **deps:** update plugin kotlin-qa to v0.65.1 ([2df1a7c](https://github.com/giacomoaccursi/Reactive-DES/commit/2df1a7ce2d77dda6b86c318275d393541e81a201))
+* **deps:** update plugin kotlin-qa to v0.65.2 ([8554afe](https://github.com/giacomoaccursi/Reactive-DES/commit/8554afeb32a6a008d92fcdd5340eb3d3febbf978))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.9 ([e54356a](https://github.com/giacomoaccursi/Reactive-DES/commit/e54356a922c68e1891ccd6cfdcf831eea8518b19))
+
 ## [1.0.6](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.5...1.0.6) (2024-08-06)
 
 ### Dependency updates
