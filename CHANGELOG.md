@@ -1,3 +1,39 @@
+## [1.0.8](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.7...1.0.8) (2024-10-10)
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlin.jvm to v2.0.21 ([c0a8c35](https://github.com/giacomoaccursi/Reactive-DES/commit/c0a8c35d2b9afae7e63085328f81e40b91764e26))
+* **deps:** update dependency gradle to v8.10.1 ([1a0f667](https://github.com/giacomoaccursi/Reactive-DES/commit/1a0f667242dc4eb646a4a4be4c8ab3925fe2311b))
+* **deps:** update dependency gradle to v8.10.2 ([b6d9a79](https://github.com/giacomoaccursi/Reactive-DES/commit/b6d9a795423a66ddf5f62293354f89df0a019d3d))
+* **deps:** update dependency org.yaml:snakeyaml to v2.3 ([27eb1d7](https://github.com/giacomoaccursi/Reactive-DES/commit/27eb1d7f8a8f6ecc170074f7deb09e3a53c4b4b5))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.100 ([b6811b0](https://github.com/giacomoaccursi/Reactive-DES/commit/b6811b09c838fefd2bb4f562f1eab1bef49008bf))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.101 ([bc308f4](https://github.com/giacomoaccursi/Reactive-DES/commit/bc308f4501beb77d8a499fad571570a076c2f4cf))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.102 ([f21563c](https://github.com/giacomoaccursi/Reactive-DES/commit/f21563c68283e00e1a017f71ece935e64a81fa1e))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.103 ([64f54cc](https://github.com/giacomoaccursi/Reactive-DES/commit/64f54ccf275809c5a8bbbcf30e19c97747bc7381))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.104 ([8ea0e78](https://github.com/giacomoaccursi/Reactive-DES/commit/8ea0e7839de8a786e2174df2fa112256813419ec))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.105 ([92668a8](https://github.com/giacomoaccursi/Reactive-DES/commit/92668a8c5c2cfb7ebcb196ffe7f82e240d5ada9a))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.106 ([77eeb46](https://github.com/giacomoaccursi/Reactive-DES/commit/77eeb46cac5f934d8d7342e793229f6493b0b8e0))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.107 ([689a9cb](https://github.com/giacomoaccursi/Reactive-DES/commit/689a9cbf5e2602c37d0e44c32674c9ea4db14fb1))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.108 ([6d5918f](https://github.com/giacomoaccursi/Reactive-DES/commit/6d5918f71338b735dded3da609e4c11393ab7457))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.109 ([133044f](https://github.com/giacomoaccursi/Reactive-DES/commit/133044fa625b8919aacff06b044527372fe49cb5))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.110 ([0e32249](https://github.com/giacomoaccursi/Reactive-DES/commit/0e3224979f385a18113b56c748e4f0a34310b659))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.111 ([7520a64](https://github.com/giacomoaccursi/Reactive-DES/commit/7520a647a73e19a4f51a6ca71fe5b4238a8fdcbb))
+* **deps:** update node.js to 20.18 ([ef9ebfb](https://github.com/giacomoaccursi/Reactive-DES/commit/ef9ebfbe4d2f0e49586778bf3e828f5a42a90d50))
+* **deps:** update plugin com.gradle.enterprise to v3.18.1 ([03bed7b](https://github.com/giacomoaccursi/Reactive-DES/commit/03bed7b42f54e7bb5b9bb5ec3ad6f61d8052eabf))
+* **deps:** update plugin kotlin-qa to v0.66.0 ([57fc9f8](https://github.com/giacomoaccursi/Reactive-DES/commit/57fc9f8e4aec7c1daceb57c95609d9c498931034))
+* **deps:** update plugin kotlin-qa to v0.67.0 ([20174f9](https://github.com/giacomoaccursi/Reactive-DES/commit/20174f982585d67d4b7ffca2f50e36c67e6af547))
+* **deps:** update plugin kotlin-qa to v0.67.1 ([91047c0](https://github.com/giacomoaccursi/Reactive-DES/commit/91047c0712dfc9792b517c45e246aedf283e1cb6))
+* **deps:** update plugin kotlin-qa to v0.67.2 ([ecc3e4d](https://github.com/giacomoaccursi/Reactive-DES/commit/ecc3e4d7e900dd89f8638e94ba9554fa2e402b7e))
+* **deps:** update plugin kotlin-qa to v0.67.3 ([02bf5e9](https://github.com/giacomoaccursi/Reactive-DES/commit/02bf5e9712c9eb26ed42e28b847e1e96394ec8a4))
+* **deps:** update plugin kotlin-qa to v0.68.0 ([c3ee6fd](https://github.com/giacomoaccursi/Reactive-DES/commit/c3ee6fd201ffdba26c73eedff3ee96e83dd245e6))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.10 ([e2f97f2](https://github.com/giacomoaccursi/Reactive-DES/commit/e2f97f262f74b0db37535f3edb75704353785e8f))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.12 ([39febbc](https://github.com/giacomoaccursi/Reactive-DES/commit/39febbcd3ba9006e900214e16abd1e1eae6f2865))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.13 ([c7e2750](https://github.com/giacomoaccursi/Reactive-DES/commit/c7e275050f2810705f3a2716c0f6e1be6f9afc38))
+
+### Build and continuous integration
+
+* **deps:** update codecov/codecov-action action to v4.6.0 ([2b297a1](https://github.com/giacomoaccursi/Reactive-DES/commit/2b297a193701362a7a5cfa5a0ece39d1e4bbe503))
+
 ## [1.0.7](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.6...1.0.7) (2024-08-22)
 
 ### Dependency updates
