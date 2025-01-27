@@ -17,7 +17,7 @@ $dokka.location:control/EngineImpl///PointingToDeclaration/-reactive -d-e-s/con
 $dokka.location:control/EngineImpl/EngineImpl/#entity.Environment#control.Scheduler#kotlin.Int#entity.Time/PointingToDeclaration/-reactive -d-e-s/control/-engine-impl/-engine-impl.html
 $dokka.location:control/EngineImpl/start/#/PointingToDeclaration/-reactive -d-e-s/control/-engine-impl/start.html
 $dokka.location:control/ListScheduler///PointingToDeclaration/-reactive -d-e-s/control/-list-scheduler/index.html
-$dokka.location:control/ListScheduler/ListScheduler/#[Error type: Unresolved type for ArrayList<Event>][entity.Event]/PointingToDeclaration/-reactive -d-e-s/control/-list-scheduler/-list-scheduler.html
+$dokka.location:control/ListScheduler/ListScheduler/#java.util.ArrayList[entity.Event]/PointingToDeclaration/-reactive -d-e-s/control/-list-scheduler/-list-scheduler.html
 $dokka.location:control/ListScheduler/addEvent/#entity.Event/PointingToDeclaration/-reactive -d-e-s/control/-list-scheduler/add-event.html
 $dokka.location:control/ListScheduler/eventsUpdated/#/PointingToDeclaration/-reactive -d-e-s/control/-list-scheduler/events-updated.html
 $dokka.location:control/ListScheduler/getEventList/#/PointingToDeclaration/-reactive -d-e-s/control/-list-scheduler/get-event-list.html
@@ -91,7 +91,7 @@ $dokka.location:entity/Event/observeExecution/#/PointingToDeclaration/-reactive
 $dokka.location:entity/Event/tau/#/PointingToDeclaration/-reactive -d-e-s/entity/-event/tau.html
 $dokka.location:entity/Event/updateEvent/#entity.Time/PointingToDeclaration/-reactive -d-e-s/entity/-event/update-event.html
 $dokka.location:entity/EventImpl///PointingToDeclaration/-reactive -d-e-s/entity/-event-impl/index.html
-$dokka.location:entity/EventImpl/EventImpl/#entity.Node#[Error type: Unresolved type for ArrayList<Condition>][entity.Condition]#[Error type: Unresolved type for ArrayList<Action>][entity.Action]#entity.Environment#kotlin.coroutines.CoroutineContext#kotlin.Int/PointingToDeclaration/-reactive -d-e-s/entity/-event-impl/-event-impl.html
+$dokka.location:entity/EventImpl/EventImpl/#entity.Node#java.util.ArrayList[entity.Condition]#java.util.ArrayList[entity.Action]#entity.Environment#kotlin.coroutines.CoroutineContext#kotlin.Int/PointingToDeclaration/-reactive -d-e-s/entity/-event-impl/-event-impl.html
 $dokka.location:entity/EventImpl/canExecute/#/PointingToDeclaration/-reactive -d-e-s/entity/-event-impl/can-execute.html
 $dokka.location:entity/EventImpl/equals/#kotlin.Any?/PointingToDeclaration/-reactive -d-e-s/entity/-event-impl/equals.html
 $dokka.location:entity/EventImpl/eventRemoved/#/PointingToDeclaration/-reactive -d-e-s/entity/-event-impl/event-removed.html
@@ -173,4 +173,3 @@ $dokka.location:flow/AwaitableMutableStateFlow/emit/#TypeParam(bounds=[kotlin.An
 control
 entity
 flow
-
