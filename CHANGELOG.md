@@ -1,3 +1,34 @@
+## [1.0.10](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.9...1.0.10) (2025-01-27)
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlin.jvm to v2.1.10 ([94b3e29](https://github.com/giacomoaccursi/Reactive-DES/commit/94b3e295feaeaa8c496c75d6e099f7b37a1fed19))
+* **deps:** update alpine docker tag to v3.21 ([ce6358c](https://github.com/giacomoaccursi/Reactive-DES/commit/ce6358c1e91e919591a4c332c557483a4fc55a06))
+* **deps:** update dependency gradle to v8.12 ([d09ce23](https://github.com/giacomoaccursi/Reactive-DES/commit/d09ce23f01edef8288233e863145e1defdc13cb7))
+* **deps:** update dependency gradle to v8.12.1 ([4d26c8f](https://github.com/giacomoaccursi/Reactive-DES/commit/4d26c8f911e5514b77e86911048f16dcf8ac8329))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.116 ([b3525e9](https://github.com/giacomoaccursi/Reactive-DES/commit/b3525e90a171dcae60e169d6f38ad0c0520d0ea1))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.117 ([70fa681](https://github.com/giacomoaccursi/Reactive-DES/commit/70fa6818ca4912667f85880c257dff43911a4fbf))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.118 ([a29c2be](https://github.com/giacomoaccursi/Reactive-DES/commit/a29c2be022ee9e05f7b9f80e37be9ea7afb45d6e))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.119 ([b477730](https://github.com/giacomoaccursi/Reactive-DES/commit/b477730c3dfd9689ed32f535c893bc8e881705f3))
+* **deps:** update node.js to 22.12 ([86109fe](https://github.com/giacomoaccursi/Reactive-DES/commit/86109fe1196df90c4be404ae8355fcd04f7281d3))
+* **deps:** update node.js to 22.13 ([a3f4edd](https://github.com/giacomoaccursi/Reactive-DES/commit/a3f4edd916ab4e6d0490829e01f1cf65170d9e0e))
+* **deps:** update plugin com.gradle.enterprise to v3.19 ([750e684](https://github.com/giacomoaccursi/Reactive-DES/commit/750e684404f32ac74b274952e114bb4774801bf6))
+* **deps:** update plugin dokka to v2 ([0947226](https://github.com/giacomoaccursi/Reactive-DES/commit/09472266978a8d31c0cf85c3d3fdf26fe6ec102b))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.16 ([fddbda4](https://github.com/giacomoaccursi/Reactive-DES/commit/fddbda40e50e5d24f976f30b1eb18d0ce109a5e1))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.17 ([d08d9d1](https://github.com/giacomoaccursi/Reactive-DES/commit/d08d9d14f202ed9f7944f6e4d32a2a82405d3aee))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.18 ([bdc673c](https://github.com/giacomoaccursi/Reactive-DES/commit/bdc673c328327ed9eb055993d23e98229ff36ced))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.19 ([be0c2da](https://github.com/giacomoaccursi/Reactive-DES/commit/be0c2da7868092daa77a357e544011f71a89a04d))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.20 ([c847cb0](https://github.com/giacomoaccursi/Reactive-DES/commit/c847cb0d3ce1840e26c38dee64b5f8f8de2cd21b))
+
+### Build and continuous integration
+
+* **deps:** update codecov/codecov-action action to v5.1.0 ([682c20e](https://github.com/giacomoaccursi/Reactive-DES/commit/682c20e75018295df0620b14e3ed054a27bc0343))
+* **deps:** update codecov/codecov-action action to v5.1.1 ([2729818](https://github.com/giacomoaccursi/Reactive-DES/commit/27298180c6924dde9d09bbe97aeb9b54335f4ca6))
+* **deps:** update codecov/codecov-action action to v5.1.2 ([4a01137](https://github.com/giacomoaccursi/Reactive-DES/commit/4a011372bfc405846a6d30ec661bec723d0a5f16))
+* **deps:** update codecov/codecov-action action to v5.2.0 ([d7a53ee](https://github.com/giacomoaccursi/Reactive-DES/commit/d7a53ee6b8ab9a3c68c122bfa6936a30cbbd0b5e))
+* **deps:** update codecov/codecov-action action to v5.3.0 ([7f09f93](https://github.com/giacomoaccursi/Reactive-DES/commit/7f09f934da10de2d8d2813b336e5ed07954b71dd))
+* **deps:** update codecov/codecov-action action to v5.3.1 ([de3f3cd](https://github.com/giacomoaccursi/Reactive-DES/commit/de3f3cd2341bd4239e08ee3c5cd4f7086bd957d6))
+
 ## [1.0.9](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.8...1.0.9) (2024-11-28)
 
 ### Dependency updates
