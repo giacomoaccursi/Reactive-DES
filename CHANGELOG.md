@@ -1,3 +1,21 @@
+## [1.0.12](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.11...1.0.12) (2025-05-13)
+
+### Dependency updates
+
+* **core-deps:** update dependency org.jetbrains.kotlin.jvm to v2.1.21 ([d10fc32](https://github.com/giacomoaccursi/Reactive-DES/commit/d10fc32fd3163e2b1428004d4aeb69ee0da55fa2))
+* **deps:** update dependency gradle to v8.14 ([9c5d700](https://github.com/giacomoaccursi/Reactive-DES/commit/9c5d700041ede0cd2c2ac1b660f324875e607b15))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.126 ([c3f7a8c](https://github.com/giacomoaccursi/Reactive-DES/commit/c3f7a8c00343b5e86f411d9c1b85fa1e687b303f))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.127 ([8286d36](https://github.com/giacomoaccursi/Reactive-DES/commit/8286d3681a90fa5ddeb82797c553f05cc50d2165))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.128 ([6e28a90](https://github.com/giacomoaccursi/Reactive-DES/commit/6e28a902a7b26a4df772fa90b93cf0fa8308ea3c))
+* **deps:** update node.js to 22.15 ([2f332f0](https://github.com/giacomoaccursi/Reactive-DES/commit/2f332f089e15adbb98298b24097a79125861c0d6))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.22 ([28676ae](https://github.com/giacomoaccursi/Reactive-DES/commit/28676ae705aa2013e55a961fbe542f4051674085))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.23 ([7073eb2](https://github.com/giacomoaccursi/Reactive-DES/commit/7073eb2b451c92c8baca80a9acc3e61186971ca1))
+* **deps:** update plugin org.danilopianini.gradle-pre-commit-git-hooks to v2.0.24 ([bfee7b1](https://github.com/giacomoaccursi/Reactive-DES/commit/bfee7b1cdbf8d6fb3b285c85ede452ed81a740a3))
+
+### Build and continuous integration
+
+* **deps:** update codecov/codecov-action action to v5.4.2 ([ee2b732](https://github.com/giacomoaccursi/Reactive-DES/commit/ee2b732c1a6d2a7660bd0ee84383cda9bc552399))
+
 ## [1.0.11](https://github.com/giacomoaccursi/Reactive-DES/compare/1.0.10...1.0.11) (2025-03-20)
 
 ### Dependency updates
