@@ -8,7 +8,7 @@
 
 plugins {
     id("com.gradle.enterprise") version "3.19.2"
-    id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.1.3"
+    id("org.danilopianini.gradle-pre-commit-git-hooks") version "2.1.4"
 }
 
 rootProject.name = "Reactive DES"
