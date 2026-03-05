@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.1.21"
+kotlin = "2.3.10"
 kotest = "6.1.4"
 
 [libraries]
